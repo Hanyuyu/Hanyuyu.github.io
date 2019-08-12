@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565576557728">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565602882571">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1565576557728" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565602882571" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -330,7 +330,7 @@ public class Array&lt;E&gt; {
 <p>我们应该采取 <strong>均摊法</strong> 来分析, 如果容量是n, 那么<code>resize</code>会在第 n+1 次操作时触发, 即 n+1 次操作的执行次数是 n+n+1=2n+1 次, 2n+1/n+1 约等于2, 则时间复杂度是O(2)=O(1), 与n是没有关系的, 这样分析下来, <code>resize</code>操作的性能其实是较高的..</p>
 <p>等等等等!</p>
 <p>也许有细心的朋友已经发现了, 虽说照上面分析是O(1), 但是 我如果不停的触发<code>resize</code>操作的, 即我在一个容量边界不停执行<code>addLast</code> 和 <code>removeLast</code>操作, 那岂不是会一直触发<code>resize</code> 操作, 那么复杂度肯定不是O(1)了, 的确如此, 这样的情况应该考虑, 我们把这种情况称为发生了 <strong>复杂度震荡</strong> !</p>
-<p>如何解决呢? 对于<code>addLast</code> 来说, 到了容量边界如果要继续增加元素, 那么扩容是必须的, 否则会抛出异常. 那么对于 <code>removeLast</code> 来说, 当实际需要容量是真实容量的1/2时, 把另一半的容量全部缩减是非必须的, 既然如此, 我们不妨把缩容量改为1/4, 这样就不会产生 复杂度震荡的问题. 这样的将操作 <strong>Lazy</strong> 化的思路在算法中很常见, 灵活利用 <strong>Lazy</strong>策略, 有时会产生更好的性能!</p>
+<p>如何解决呢? 对于<code>addLast</code> 来说, 到了容量边界如果要继续增加元素, 那么扩容是必须的, 否则会抛出异常. 那么对于 <code>removeLast</code> 来说, 当实际需要容量是真实容量的1/2时, 把另一半的容量全部缩减是非必须的, 既然如此, 我们不妨把缩容量操作改为当实际元素个数是容量的1/4时, 在缩到1/2, Lazy 一点, 这样就不会产生 复杂度震荡的问题. 这样的将操作 <strong>Lazy</strong> 化的思路在算法中很常见, 灵活利用 <strong>Lazy</strong>策略, 有时会产生更好的性能!</p>
 <pre><code class="language-java">	//删除index位置的元素,返回删除元素
 	public E remove(int index) {
 		if(!(index&gt;=0 &amp;&amp; index&lt;size))
