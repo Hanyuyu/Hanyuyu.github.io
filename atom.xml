@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-12T09:47:54.618Z</updated>
+    <updated>2019-08-12T12:17:40.734Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -10,6 +10,163 @@
     <logo>http://stevenhy.com/images/avatar.png</logo>
     <icon>http://stevenhy.com/favicon.ico</icon>
     <rights>All rights reserved 2019, stevenhy&apos;s pocket</rights>
+    <entry>
+        <title type="html"><![CDATA[数据结构回顾 - 栈的底层实现]]></title>
+        <id>http://stevenhy.com/post/sjjghg-zddcsx</id>
+        <link href="http://stevenhy.com/post/sjjghg-zddcsx">
+        </link>
+        <updated>2019-08-12T09:48:39.000Z</updated>
+        <content type="html"><![CDATA[<p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。</p>
+<p>这次，我们通过对栈的原理来实现一个栈！栈在学习过程中出现频率挺高， 举两个例子，第一个是撤销操作，就是我们在文本编辑器中常用到的撤销(Undo)操作，原理和栈是一个道理，还有一个是程序调用的系统栈，在对子过程进行调用的时候，会把主函数中子函数的入口地址存入栈中，待子过程调用完毕后，会从该系统栈中取出主函数中的位置，接着执行剩余的命令。</p>
+<p>现在，我们来想一想该如何实现这个栈。🧐</p>
+<h2 id="1需求分析">1.需求分析</h2>
+<p>首先，我们把栈要实现的功能进行罗列：</p>
+<pre><code class="language-java">	void push(E)    //进栈
+	E pop()            //出栈
+	E peek()          //查看栈顶元素
+	int getSize()    //获取栈中元素个数
+	boolean isEmpty()   //查看栈是否非空
+</code></pre>
+<p>以上就是我们在栈中要实现的功能，从用户角度来看，设计的栈支持这些操作就好，具体底层的实现，用户并不需要关心，底层实现由多种方式，为满足多态性要求，我们先设置一个<code>Stack</code>接口，定义出基本的操作， 然后我们可以利用以实现的动态数组，来构建自己的<code>ArrayStack</code>类，使其实现<code>Stack</code>接口，这样我们的栈也有了类似动态数组的自动调整容量的<code>resize()</code>方法。</p>
+<h2 id="2具体实现">2.具体实现</h2>
+<p><strong>Stack 接口定义如下</strong></p>
+<pre><code class="language-java">public interface Stack&lt;E&gt; {
+    int getSize();
+    boolean isEmpty();
+    void push(E e);
+    E pop();
+    E peek();
+}
+</code></pre>
+<p><strong>ArrayStack 定义如下</strong></p>
+<pre><code class="language-java">public class ArrayStack&lt;E&gt; implements Stack&lt;E&gt; {
+
+	Array&lt;E&gt; array;
+	
+	//构造方法用于用户事先知道容量
+	public ArrayStack(int capacity) {
+		array = new Array&lt;&gt;(capacity);
+	}
+	//当用户不确定所需容量，提供无参构造函数
+	public ArrayStack() {
+		array = new Array&lt;&gt;();
+	}
+	
+	
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return array.getSize();
+	}
+	
+		@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return array.isEmpty();
+	}
+
+	public int getCapacity() {
+		return array.getCapiticy();
+	}
+	
+	@Override
+	public E pop() {
+		// TODO Auto-generated method stub
+		return array.removeLast();
+	}
+
+	@Override
+	public E peek() {
+		// TODO Auto-generated method stub
+		return array.getLast(); // 为方便，在Array类中添加了getLast()方法 
+	}
+	
+		@Override
+	public void push(E e) {
+		// TODO Auto-generated method stub
+		array.addlast(e); //时间复杂度复习中, 因为与动态数组一样要考虑到resize操作, 故用均摊法分析复杂度为O(1)
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		res.append(&quot;Stack: [&quot;);
+		//res.append(array.toString());
+		for(int i=0; i&lt;array.getSize(); i++) {
+			res.append(array.get(i));
+			if(i != array.getSize()-1)
+				res.append(',');
+		}
+		res.append(&quot;] top&quot;);
+		return res.toString();
+	}
+	
+	
+}
+</code></pre>
+<p>这样我们的栈就定义好了。</p>
+<h2 id="3复杂度分析">3.复杂度分析</h2>
+<p>接着我们需要分析它各项操作的时间复杂度来大致衡量性能<br>
+<strong>ArrayStack</strong></p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push</td>
+<td>O(1)  均摊</td>
+</tr>
+<tr>
+<td>pop</td>
+<td>O(1)  均摊</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>getSize</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>isEmpty()</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4验证结果">4.验证结果</h2>
+<p>编写main方法进行验证，如下：</p>
+<pre><code class="language-java">public class Main {
+		public static void main(String[] args) {
+		ArrayStack&lt;Integer&gt; stack = new ArrayStack&lt;&gt;();
+		for(int i=0;i&lt;5;i++) {
+			stack.push(i);
+			System.out.println(stack);
+		}
+		stack.pop();
+		System.out.println(stack);
+		}
+}
+</code></pre>
+<p><strong>结果如下</strong><br>
+Stack: [0] top<br>
+Stack: [0,1] top<br>
+Stack: [0,1,2] top<br>
+Stack: [0,1,2,3] top<br>
+Stack: [0,1,2,3,4] top<br>
+Stack: [0,1,2,3] top<br>
+<br></p>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/sjjghg-zddcsx/">http://stevenhy.com/post/sjjghg-zddcsx/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构回顾 - 从0实现动态数组]]></title>
         <id>http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu</id>
