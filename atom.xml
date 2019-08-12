@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-12T12:17:40.734Z</updated>
+    <updated>2019-08-12T12:22:17.830Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -16,8 +16,13 @@
         <link href="http://stevenhy.com/post/sjjghg-zddcsx">
         </link>
         <updated>2019-08-12T09:48:39.000Z</updated>
-        <content type="html"><![CDATA[<p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。</p>
-<p>这次，我们通过对栈的原理来实现一个栈！栈在学习过程中出现频率挺高， 举两个例子，第一个是撤销操作，就是我们在文本编辑器中常用到的撤销(Undo)操作，原理和栈是一个道理，还有一个是程序调用的系统栈，在对子过程进行调用的时候，会把主函数中子函数的入口地址存入栈中，待子过程调用完毕后，会从该系统栈中取出主函数中的位置，接着执行剩余的命令。</p>
+        <summary type="html"><![CDATA[<p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。<br>
+这次，我们依然自己来实现一个栈！</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。<br>
+这次，我们依然自己来实现一个栈！</p>
+<!-- more -->
+<p>栈在学习过程中出现频率挺高， 举两个例子，第一个是撤销操作，就是我们在文本编辑器中常用到的撤销(Undo)操作，原理和栈是一个道理，还有一个是程序调用的系统栈，在对子过程进行调用的时候，会把主函数中子函数的入口地址存入栈中，待子过程调用完毕后，会从该系统栈中取出主函数中的位置，接着执行剩余的命令。</p>
 <p>现在，我们来想一想该如何实现这个栈。🧐</p>
 <h2 id="1需求分析">1.需求分析</h2>
 <p>首先，我们把栈要实现的功能进行罗列：</p>
