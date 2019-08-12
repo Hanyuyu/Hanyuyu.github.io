@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-12T01:41:13.387Z</updated>
+    <updated>2019-08-12T01:43:51.654Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -34,7 +34,7 @@ dataType arrayname[]  //与上面的方法效果相同,但不建议使用
 //1.创建了一个dataType类型的arraySize大小的数组
 //2.把这个数组的引用赋值给变量arrayRefVar
 
-//同样的,数组的创建于声明可以用一条语句完成
+//同样的,数组的创建与声明可以用一条语句完成
 dataType[] arrayRefVar = new dataType[arraySize];
 //也可以用大括号对元素进行初始化
 dataType[] arrayRefVar = new dataType[]{1,2,3,4,5};
@@ -253,7 +253,7 @@ public class Array&lt;E&gt; {
 <br>
 <blockquote>
 <p>本文作者: 韩宇<br>
-本文链接: http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu/<br>
+本文链接: &lt;http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu/ &gt;<br>
 版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
 </blockquote>
 ]]></content>
