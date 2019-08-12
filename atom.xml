@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-12T12:39:32.909Z</updated>
+    <updated>2019-08-12T14:06:02.135Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -10,6 +10,355 @@
     <logo>http://stevenhy.com/images/avatar.png</logo>
     <icon>http://stevenhy.com/favicon.ico</icon>
     <rights>All rights reserved 2019, stevenhy&apos;s pocket</rights>
+    <entry>
+        <title type="html"><![CDATA[数据结构回顾 - 队列的实现与优化]]></title>
+        <id>http://stevenhy.com/post/RPOfy91HP</id>
+        <link href="http://stevenhy.com/post/RPOfy91HP">
+        </link>
+        <updated>2019-08-12T12:40:31.000Z</updated>
+        <summary type="html"><![CDATA[<p>之前我们实现了一个栈，栈是一种先进后出的数据结构(FILO), 那么在数据结构中还有一种先进先出的数据结构(FIFO)与之对应, 即队列, 今天我们一步步实现自己的队列并优化它!</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>之前我们实现了一个栈，栈是一种先进后出的数据结构(FILO), 那么在数据结构中还有一种先进先出的数据结构(FIFO)与之对应, 即队列, 今天我们一步步实现自己的队列并优化它!</p>
+<!-- more -->
+<h2 id="1需求分析">1.需求分析</h2>
+<p>同样的我们在实现一个队列之前, 要搞清楚它要包含些什么功能, 同样的为了使队列支持多态性, 我们先定义一个接口<code>Queue</code>, 理清我们具体要实现的方法.</p>
+<pre><code class="language-java">public interface Queue&lt;E&gt; {
+	int getSize();       //获取队列中的元素个数
+	boolean isEmpty();   //判断队列是否为空
+	void enqueue(E e);    //入队
+	E dequeue();             //出队
+	E getFront();            //获取对首元素
+}
+</code></pre>
+<p>明确目标之后我们开始编写具体的实现代码</p>
+<h2 id="2编写">2.编写</h2>
+<p>我们要编写的类为<code>ArrayQueue</code> , 并实现Queue接口.</p>
+<pre><code class="language-java">publice class ArrayQueue&lt;E&gt; implements Queue&lt;E&gt; {
+	//依然以我们之前创建的Array作为底层
+	//这里的array是不需要用户看见的,用private关键字
+	private Array&lt;E&gt; array; 
+
+	//当用户知道具体容量时,提供有参构造方法
+	public ArrayQueue(int capacity) {
+		array = new Array&lt;&gt;(capacity);
+	}
+
+	//当用户不知道具体容量时,提供无参构造方法
+	public ArrayQueue() {
+		array = new Array&lt;&gt;(); 
+	}
+	
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return array.getSize();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return array.isEmpty();
+	}
+
+	@Override
+	public void enqueue(E e) {
+		// TODO Auto-generated method stub
+		array.addlast(e);
+	}
+
+	@Override
+	public E dequeue() {
+		// TODO Auto-generated method stub
+		return array.removeFirst(); //除该操作的复杂度是O(n), 其余都是O(1), 要解决用循环队列, 后面会优化
+	}
+
+	@Override
+	public E getFront() {
+		// TODO Auto-generated method stub
+		return array.getFirst();
+	}
+	
+	@Override
+	public String toString(){	
+		StringBuilder res = new StringBuilder();
+		res.append(&quot;Queue: &quot;);
+		res.append(&quot;Front [&quot;);
+		for(int i=0;i&lt;array.getSize();i++) {
+			res.append(array.get(i));
+			if(i != array.getSize() - 1)
+				res.append(&quot;, &quot;);
+		}
+		res.append(&quot;] tail&quot;);
+		return res.toString();
+	}
+}
+</code></pre>
+<p>我们先来简单测试一下, 编写一个main方法如下:</p>
+<pre><code class="language-java">public class Main {
+		// TODO Auto-generated method stub
+	public static void main(String[] args) {
+		ArrayQueue&lt;Integer&gt; queue = new ArrayQueue&lt;&gt;();
+		for(int i=0;i&lt;10;i++) {
+			queue.enqueue(i);
+			System.out.println(queue);
+			//每隔三次出一次队
+			if(i%3 == 2) {
+				queue.dequeue();
+				System.out.println(queue);
+			}
+		}
+	}
+}
+</code></pre>
+<p>结果如下</p>
+<pre><code>Queue: Front [0] tail
+Queue: Front [0, 1] tail
+Queue: Front [0, 1, 2] tail
+Queue: Front [1, 2] tail
+Queue: Front [1, 2, 3] tail
+Queue: Front [1, 2, 3, 4] tail
+Queue: Front [1, 2, 3, 4, 5] tail
+Queue: Front [2, 3, 4, 5] tail
+Queue: Front [2, 3, 4, 5, 6] tail
+Queue: Front [2, 3, 4, 5, 6, 7] tail
+Queue: Front [2, 3, 4, 5, 6, 7, 8] tail
+Queue: Front [3, 4, 5, 6, 7, 8] tail
+Queue: Front [3, 4, 5, 6, 7, 8, 9] tail
+</code></pre>
+<h2 id="3复杂度分析及优化方向">3.复杂度分析及优化方向</h2>
+<p>我们来先来分析上面编写的<code>ArrayQueue</code>的各项操作的复杂度, 如下所示</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getSize()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>isEmpty()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>enqueue(E e)</td>
+<td>O(1)  (均摊)</td>
+</tr>
+<tr>
+<td>getFront()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>dequeue()</td>
+<td>O(n)</td>
+</tr>
+</tbody>
+</table>
+<p>可以看出上面的操作, 除了<code>getFront()</code>方法的复杂度是O(n)外, 其余方法复杂度均为O(1).<br>
+这也就是我们的优化方向, 能不能把<code>getFront()</code>操作的时间复杂度也降低到O(1)呢?<br>
+答案是肯定的, 至于怎么解决, 我们现在一步步来分析<br>
+首先, <code>getFront()</code>的时间复杂度为O(n)的原因在于, 每次对对首元素进行出队操作时, 要对剩下的所有元素向前移动一位,  这对于我们的动态数组来说是必要的, 因为我们需要<code>size</code>来统计当前数组中的元素个数, size所存的永远是第一个空位置, 那么如果不移动, size的值就会不稳定, 无法准确得到数组元素个数, 即使可以得到也不好维护.<br>
+那么对于一个队列来讲, 是否一定要移动后面的元素呢? 大可不必! 从用户角度来想, 队列维护的是出队及入队序列, 我们只需要让元素保持一定的顺序即可, 不必强求对首必须在索引为0的位置上, 这样一来, 我们就得到了一种新的队列 <strong><code>循环队列</code></strong>, 元素不再移动之后, 复杂度即变为O(1).<br>
+光说不练假把式, 我们来通过代码具体实现:<br>
+还是实现之前定义的队列<code>Queue</code>接口, 此处便体会到, 多态设计模式的好处😁</p>
+<pre><code class="language-java">public class LoopQueue&lt;E&gt; implements Queue&lt;E&gt; {
+	
+	private E[] data; //不在依赖原先的动态数组
+	private int front, tail;
+	private int size;
+	
+	//由于实际可存元素数量比数组长度少1, 故要容纳capacity个元素, 长度需为capacity+1
+	public LoopQueue(int capacity) {
+		data = (E[])new Object[capacity + 1];
+		front = 0;
+		tail = 0;
+		size = 0;
+	}
+	
+	public LoopQueue() {
+		this(10);
+	}
+	
+	public int getCapacity() {
+		return data.length-1;
+	}
+	
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return front == tail;
+	}
+
+	//循环队列, 相应的逻辑要改变
+	@Override
+	public void enqueue(E e) {
+		// TODO Auto-generated method stub
+		int c = data.length;
+		if((tail+1)%c == front)
+			resize(getCapacity() * 2);
+		data[tail] = e;
+		tail = (tail + 1)% (data.length);
+		size++;
+		
+	}
+
+	//定义变容操作,道理同动态数组
+	private void resize(int newCapacity) {
+		// TODO Auto-generated method stub
+		E[] newData = (E[])new Object[newCapacity+1];
+		for(int i=0; i&lt;size ; i++)
+			newData[i] = data[(i+front)%data.length];
+		
+		data = newData;
+		front = 0;
+		tail = size;
+	}
+
+	@Override
+	public E dequeue() {
+		// TODO Auto-generated method stub
+		if(isEmpty())
+			throw new IllegalArgumentException(&quot;Cannot dequeue from an empty queue!&quot;);
+		E element = data[front];
+		data[front] = null;
+		front = (front+1)%data.length;
+		size--;
+		if(size == getCapacity()/4 &amp;&amp; getCapacity()/2!=0)
+			resize(getCapacity()/2);
+		return element;
+	}
+
+	@Override
+	public E getFront() {
+		// TODO Auto-generated method stub
+		if(isEmpty())
+			throw new IllegalArgumentException(&quot;Cannot getFront from an empty queue!&quot;);
+		return data[front];
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		res.append(String.format(&quot;Queue: size = %d, capacity = %d\n&quot;,size, getCapacity()));
+		res.append(&quot;front [&quot;);
+		//两种遍历循环队列的方式, 另一种看resize中的遍历
+		for(int i=front;i != tail; i = (i+1)%data.length) {
+			res.append(data[i]);
+			if((i +1)%data.length != tail)
+				res.append(&quot;, &quot;);
+		}
+		res.append(&quot;] tail&quot;);
+		return res.toString();
+	}
+}
+</code></pre>
+<p>同样,我们来验证一下,看看具体效果:</p>
+<pre><code class="language-java">public class Main {
+		// TODO Auto-generated method stub
+	public static void main(String[] args) {
+		LoopQueue&lt;Integer&gt; queue = new LoopQueue&lt;&gt;();
+		for(int i=0;i&lt;10;i++) {
+			queue.enqueue(i);
+			System.out.println(queue);
+			System.out.println();
+			if(i%3 == 2) {
+				queue.dequeue();
+				System.out.println(queue);
+				System.out.println();
+			}
+		}
+	}
+}
+</code></pre>
+<p><strong>效果如下</strong></p>
+<pre><code>Queue: size = 1, capacity = 10
+front [0] tail
+
+Queue: size = 2, capacity = 10
+front [0, 1] tail
+
+Queue: size = 3, capacity = 10
+front [0, 1, 2] tail
+
+Queue: size = 2, capacity = 5
+front [1, 2] tail
+
+Queue: size = 3, capacity = 5
+front [1, 2, 3] tail
+
+Queue: size = 4, capacity = 5
+front [1, 2, 3, 4] tail
+
+Queue: size = 5, capacity = 5
+front [1, 2, 3, 4, 5] tail
+
+Queue: size = 4, capacity = 5
+front [2, 3, 4, 5] tail
+
+Queue: size = 5, capacity = 5
+front [2, 3, 4, 5, 6] tail
+
+Queue: size = 6, capacity = 10
+front [2, 3, 4, 5, 6, 7] tail
+
+Queue: size = 7, capacity = 10
+front [2, 3, 4, 5, 6, 7, 8] tail
+
+Queue: size = 6, capacity = 10
+front [3, 4, 5, 6, 7, 8] tail
+
+Queue: size = 7, capacity = 10
+front [3, 4, 5, 6, 7, 8, 9] tail
+
+</code></pre>
+<h2 id="优化总结">优化总结</h2>
+<p>经优化, 将队列变为循环队列后, 我们再来看看时间复杂度:</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getCapacity()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>getSize()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>isEmpty()</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>enqueue(E e)</td>
+<td>O(1) (均摊)</td>
+</tr>
+<tr>
+<td>dequeue()</td>
+<td>O(1) (均摊)</td>
+</tr>
+</tbody>
+</table>
+<p>至此优化完成, 其实在上面实现循环队列的时候, 不用size成员变量也可实现所有功能, 大小则通过front和tail两个变量来计算, 需要考虑的方面还挺多, 姑且当做一个作业去做,锻炼能力, 等实现了在贴出来与各位交流!</p>
+<br>
+> 本文作者: 韩宇   
+本文链接: <http://stevenhy.com/post/RPOfy91HP/>  
+版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构回顾 - 栈的底层实现]]></title>
         <id>http://stevenhy.com/post/sjjghg-zddcsx</id>
