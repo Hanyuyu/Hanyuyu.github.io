@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-12T12:22:17.830Z</updated>
+    <updated>2019-08-12T12:39:32.909Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -32,7 +32,7 @@
 	int getSize()    //获取栈中元素个数
 	boolean isEmpty()   //查看栈是否非空
 </code></pre>
-<p>以上就是我们在栈中要实现的功能，从用户角度来看，设计的栈支持这些操作就好，具体底层的实现，用户并不需要关心，底层实现由多种方式，为满足多态性要求，我们先设置一个<code>Stack</code>接口，定义出基本的操作， 然后我们可以利用以实现的动态数组，来构建自己的<code>ArrayStack</code>类，使其实现<code>Stack</code>接口，这样我们的栈也有了类似动态数组的自动调整容量的<code>resize()</code>方法。</p>
+<p>以上就是我们在栈中要实现的功能，从用户角度来看，设计的栈支持这些操作就好，具体底层的实现，用户并不需要关心，底层实现有多种方式，为满足多态性要求，我们先设置一个<code>Stack</code>接口，定义出基本的操作， 然后我们可以利用以实现的动态数组，来构建自己的<code>ArrayStack</code>类，使其实现<code>Stack</code>接口，这样我们的栈也有了类似动态数组的自动调整容量的<code>resize()</code>方法。</p>
 <h2 id="2具体实现">2.具体实现</h2>
 <p><strong>Stack 接口定义如下</strong></p>
 <pre><code class="language-java">public interface Stack&lt;E&gt; {
@@ -64,7 +64,7 @@
 		return array.getSize();
 	}
 	
-		@Override
+	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return array.isEmpty();
@@ -86,7 +86,7 @@
 		return array.getLast(); // 为方便，在Array类中添加了getLast()方法 
 	}
 	
-		@Override
+	@Override
 	public void push(E e) {
 		// TODO Auto-generated method stub
 		array.addlast(e); //时间复杂度复习中, 因为与动态数组一样要考虑到resize操作, 故用均摊法分析复杂度为O(1)
@@ -418,6 +418,399 @@ public class Array&lt;E&gt; {
 本文链接: <a href="http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu/">http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu/</a><br>
 版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
 </blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java abstract类与接口]]></title>
+        <id>http://stevenhy.com/post/2019-3-22-java-abstract-and-interface</id>
+        <link href="http://stevenhy.com/post/2019-3-22-java-abstract-and-interface">
+        </link>
+        <updated>2019-03-21T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<h1 id="关于abstract类与接口">关于abstract类与接口</h1>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="关于abstract类与接口">关于abstract类与接口</h1>
+<!-- more -->
+<h2 id="1如何理解abstract">1.如何理解abstract</h2>
+<p>举个简单的例子，我们要编写一个可以计算柱状体体积的一个程序，我们会用到下面这个计算公式：</p>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>o</mi><mi>l</mi><mi>u</mi><mi>m</mi><mo>=</mo><mi>B</mi><mi>o</mi><mi>t</mi><mi>t</mi><mi>o</mi><mi>m</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>a</mi><mo>∗</mo><mi>h</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Volum = Bottomarea * height
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span></span></span></span></span></p>
+<p>对于<code>heigth</code>来说，我们很容易确定它的数值，可是对于<code>Bottomarea</code>就不是那么容易了，<br>
+我们需要根据不同的形状来求出它的值，比如矩形，圆形或者是一个三角形等等。<br>
+我们不可能考虑到所有的情况（这样非常耗费精力与时间）。<br>
+但是体积的计算公式时很明确的，那么是否可以把<code>Bottomarea</code>当成已知量，只关注功能的实现。<br>
+具体柱体的底面积是什么，根据确定需求来调用实现呢？<br>
+ 这样，有了<code>abstract</code>的出现。</p>
+<p>在Java中，我们可以定义一个abstract类来实现具体的功能，至于一些功能的细节，由其子类去具体调用该功能时给出。<br>
+根据上例，我们来定义一个这样的类：</p>
+<pre><code class="language-java">abstract class Geometry {
+    public abstract double getArea(); 
+}//将所有计算面积的方法抽象成一个方法，不再考虑具体细节
+
+
+//定义一个柱类 Piallar
+public class  Pillar {
+    Gemetry bottom;//bottom是抽象类Geometry声明的变量
+    double height;
+    Pillar (Geometry bottom, double height) {
+        this.bottom = bottom;
+        this.height = height;
+    }
+    public double getVolum() {
+        if(bottom==null) {
+            System.out.println(&quot;没有底，无法计算体积&quot;);
+            return -1;
+        }
+        return bottom.getArea()*height;
+        //bottom可以调用子类重写的getarea()方法
+    }
+}
+</code></pre>
+<p><strong>以下给出<code>abstract</code>类在定义时需要注意的一些要点：</strong></p>
+<ol>
+<li><code>abstract</code>不能用new运算符创建对象，必须创建其子类，由其子类创建对象。</li>
+<li><code>abstract</code>类中的<code>abstract</code>方法只允许声明而不允许实现，其子类必须实现其继承的<code>abstract</code>方法，即重写<code>abstract</code>方法。</li>
+<li>一个<code>abstract</code>类只关心子类是否具有某种功能，不关心功能的具体实现。具体实现由子类负责。</li>
+<li>抽象类中可以包含抽象方法，为所有子类定义一个统一的接口，具体实现由子类完成。</li>
+<li>抽象类中不一定要包含<code>abstract</code>方法，但是，一旦某个类中包含了<code>abstract</code>方法，则这个类必须声明为<code>abstract</code>类。</li>
+</ol>
+<p>子类实现举例：</p>
+<pre><code class="language-java">//当底面是圆形时
+public class Circle extends Geometry {
+    double r;
+    Circle(double r) {
+        this.r = r;
+    }
+    public double getArea() {
+        return(3.14*r*r);
+    }
+}
+
+public class APP {
+    public static void main(String args[]) {
+        Piallar piallar;
+        Geometry bottom = new Circle(10);//指定其底面为圆形
+        piallar = new Piallar(bottom 100);
+        System.out.println(&quot;体积&quot;+piallar.getVolum());
+    }
+}
+
+</code></pre>
+<blockquote>
+<p><strong>总结</strong><br>
+通过面向抽象来设计Piallar类，使得Piallar类不再依赖具体不变的类，当我们增加一个Triangle的子类，我们不需要修改Piallar类的任何代码，就可以创建出具有三角形底的柱体。</p>
+</blockquote>
+<p>总体来说，面向抽象编程的目的是为了应对用户需求的变化。核心是让类中每种可能的变化<br>
+对应的交给抽象类的一个子类去负责，避免所设计的类依赖于具体的实现。</p>
+<hr>
+<h2 id="接口与实现">接口与实现</h2>
+<p>  由于Java不支持多继承性，即一个类只能有一个父类，当子类里要实现多个方法时，便显得捉襟见肘（只能继承一个抽象类），为了克服单继承的缺点，Java提供了接口。<br>
+接口定义的是多个类的共同行为规范，这些行为是与外部交流的通道，因此，接口定义的是一组公用方法。<br>
+  使用关键字<code>interface</code>来定义一个接口</p>
+<ul>
+<li>接口体中包含常量定义和方法定义两部分。接口体中只进行方法的声明，不许提供方法的实现，所以，方法的定义没有方法体，且用分号“；”结尾 。</li>
+<li>接口中的方法被默认是public和abstract的，接口在声明方法时可以省略方法前面的public和abstract关键字，但是，类在实现接口方法时，一定要用public来修饰。</li>
+<li>类实现的接口方法以及接口中的常量可以被类的对象调用。</li>
+</ul>
+<pre><code class="language-java">interface Printable {
+    final int Max = 100;
+    void add();
+    float sum(float x, float y);
+}
+</code></pre>
+<p>实现接口用关键字<code>implements</code>声明，如果要实现多个接口，用逗号隔开接口名</p>
+<pre><code class="language-java">class A implements Printable,Addable {
+    //A类实现了Printable，Addable接口。
+    }
+</code></pre>
+<p>体会以下例子中接口的调用：</p>
+<pre><code class="language-java">
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String a,b;
+        Scanner reader = new Scanner(System.in);
+        a = reader.next();
+        b = reader.next();
+        Paper p = new A4Paper();//接口回调
+        A4Paper.name = a;
+        Printer printer = new Printer();
+        printer.Print(p);
+        p = new A6Paper();//接口回调
+        A6Paper.name = b;
+        printer.Print(p);
+    }
+
+}
+
+interface Paper {
+    String GetName();
+}
+
+class A4Paper implements Paper {
+    static String name;
+    public String GetName() {
+        return A4Paper.name;
+    }
+}
+
+class A6Paper implements Paper {
+    static String name;
+    public String GetName() {
+        return A6Paper.name;
+    }
+}
+
+class Printer {
+    public void Print(Paper p) {
+        System.out.println(p.GetName());
+    }
+}
+
+</code></pre>
+<p><strong>要点</strong></p>
+<ul>
+<li>接口中所有成员，包括属性、方法、内部类都是public访问权限</li>
+<li>不管是否使用public static final修饰符，接口里的属性总是用这三个修饰符来修饰，即：接口中只能有常量</li>
+<li>接口中的方法都是抽象方法，系统自动为其添加abstract修饰符</li>
+<li>接口中不允许定义static方法</li>
+<li>接口不能用于创建实例，但接口可用于声明引用类型的变量，这个引用类型的变量必须引用到其实现类的对象。<br>
+例如：Computable c=new Computable();       X<br>
+   Computable c=new A();    √</li>
+</ul>
+ <br>  
+<hr>
+<br>  
+<h2 id="abstract类与接口的比较">abstract类与接口的比较</h2>
+<ul>
+<li><code>abstract</code>类和接口都可以有<code>abstract</code>方法。</li>
+<li>接口中只可以有常量，不能有变量；而<code>abstract</code>类中即可以有常量也可以有变量。</li>
+<li><code>abstract类</code>中也可以有非abstract方法，接口不可以。</li>
+<li>抽象类表示的是，这个对象是什么。接口表示的是，这个对象能做什么</li>
+<li>抽象类和接口都不能直接实例化，如果要实例化，抽象类变量必须指向实现所有抽象方法的子类对象，接口变量必须指向实现所有接口方法的类对象。即：抽象类要被子类继承，接口要被类实现。</li>
+<li>接口作为系统与外界交互的窗口，体现的是一种规范。类似于整个系统的“总纲”，制定了系统各模块应该遵循的标准，因此一个接口不应该经常改变。在一个程序中，接口是多个模块间的耦合标准；在多个应用程序之间使用接口，接口是多个应用程序间的通信标准。</li>
+<li>抽象类体现的是一种“模板”式设计。抽象类作为多个子类的抽象父类，可被当做系统实现过程中的中间产品，实现了系统部分功能，需要进一步完善才能成为最终产品。<br>
+<br></li>
+</ul>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/2019-3-22-java-abstract-and-interface/">http://stevenhy.com/post/2019-3-22-java-abstract-and-interface/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python ccf题解 201803-1 跳一跳]]></title>
+        <id>http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao</id>
+        <link href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
+        </link>
+        <updated>2019-02-22T00:07:03.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="201803-1跳一跳">201803-1跳一跳</h2>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="201803-1跳一跳">201803-1跳一跳</h2>
+<!-- more -->
+<p>项目 | 相关说明<br>
+试题编号 | 201703-1<br>
+试题名称 | 跳一跳<br>
+时间限制 | 1.0s<br>
+内存限制 | 256m<br>
+问题描述 |近来，跳一跳这款小游戏风靡全国，受到不少玩家的喜爱。<br>
+　　简化后的跳一跳规则如下：玩家每次从当前方块跳到下一个方块，如果没有跳到下一个方块上则游戏结束。<br>
+　　如果跳到了方块上，但没有跳到方块的中心则获得1分；跳到方块中心时，若上一次的得分为1分或这是本局游戏的第一次跳跃则此次得分为2分，否则此次得分比上一次得分多两分（即连续跳到方块中心时，总得分将+2，+4，+6，+8...）。<br>
+　　现在给出一个人跳一跳的全过程，请你求出他本局游戏的得分（按照题目描述的规则）。</p>
+<p>输入格式</p>
+<p>输入包含多个数字，用空格分隔，每个数字都是1，2，0之一，1表示此次跳跃跳到了方块上但是没有跳到中心，2表示此次跳跃跳到了方块上并且跳到了方块中心，0表示此次跳跃没有跳到方块上（此时游戏结束）。</p>
+<p>输出格式</p>
+<p>输出一个整数，为本局游戏的得分（在本题的规则下）。</p>
+<p>样例输入</p>
+<p>1 1 2 2 2 1 1 2 2 0</p>
+<p>样例输出</p>
+<p>22</p>
+<p>数据规模和约定</p>
+<h2 id="对于所有评测用例输入的数字不超过30个保证0正好出现一次且为最后一个数字">对于所有评测用例，输入的数字不超过30个，保证0正好出现一次且为最后一个数字。</h2>
+<h1 id="代码片段">代码片段</h1>
+<pre><code class="language-python"> #跳一跳
+score = 0
+last = 1
+alist = list(map(int,input().split()))
+for a in alist:
+    if a == 0:  # 若a为0则跳出循环
+        break
+    elif a == 1:
+        last = 1
+        score += a
+    else:  # 跳到中心
+        if last == 1:
+            last = 2
+        else:
+            last = last + 2
+        score += last
+print(score)
+</code></pre>
+<h2 id="last的设置是解决本题的核心作用类似于flag可以起到遇1重置遇2累加的作用">last的设置是解决本题的核心，作用类似于flag，可以起到遇1重置，遇2累加的作用</h2>
+<p><a href="https://postimg.cc/qz02QzsN"><img src="https://i.postimg.cc/TY5QdbhJ/7178.png" alt="7178.png"></a></p>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao/">http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java子类与继承相关知识点]]></title>
+        <id>http://stevenhy.com/post/2019-3-22-java-class-and-extends</id>
+        <link href="http://stevenhy.com/post/2019-3-22-java-class-and-extends">
+        </link>
+        <updated>2019-02-21T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
+<!-- more -->
+<h2 id="1子类与父类">1.子类与父类</h2>
+<p>子类是由继承产生的，由关键词<code>extends</code>实现，例如当A类继承B类时，A类就是子类<br>
+B类是父类。子类可以继承父类中不是<code>Private</code>的属性和方法作为自己的方法。<br>
+若子类与父类不在同一包内则只能继承<code>public</code>和<code>protected</code>修饰的变量和方法。</p>
+<h2 id="2成员变量的隐藏及方法的重写">2.成员变量的隐藏及方法的重写</h2>
+<p>当子类新定义的成员变量与父类存在同名时，从父类那里继承来的成员变量就会被隐藏，<br>
+子类不可直接调用，但可以通过从父类继承的方法进行调用。<br>
+同时子类也可以重写从父类继承来的方法，从而实现想要的功能，但是需要注意的是，<br>
+方法的名字，参数个数，参数类型，必须和父类的完全相同，不一样的只能是方法体。</p>
+<h2 id="3super关键字">3.super关键字</h2>
+<p>上面谈到，子类可以隐藏父类的成员变量及方法，那么如何调用这些被隐藏的变量及方法呢<br>
+用<code>super</code>！当这些变量或方法被隐藏后就归super所有，例如<code>super.x</code> , <code>super.play()</code> ,<br>
+分别调用了被子类隐藏的变量x和方法play。<br>
+特别注意，当我们构造一个子类对象时，程序总会先构造该子类的父类对象，记住！<br>
+<strong>子类不会继承父类的构造方法</strong> 也就是说，如果子类的构造方法没有明显的指出<br>
+要使用父类的哪一个构造方法，子类会默认调用父类不带参数的构造方法。因此，子类在<br>
+其构造方法中需要<code>super();</code>来调用父类的构造方法。(<s>没写也默认带</s>)<br>
+<em><strong>例如仔细领悟如下代码中<code>super</code>的用法</strong></em></p>
+<pre><code class="language-java">class Vehicle {
+    int a;//轮子数
+    double b;//自身重量
+    Vehicle(int a, double b) {
+        this.a=a;
+        this.b=b;
+    }
+    void show() {
+        System.out.println(&quot;汽车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+    }
+}
+class Car extends Vehicle {
+    int c;//载客属性
+    Car(int a, double b, int c) {
+        super(a, b);//重点看这里的super！！！
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    void show() {
+        System.out.println(&quot;小轿车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+        System.out.println(&quot;额定乘客数:&quot;+c+&quot;人&quot;);
+    }
+}
+</code></pre>
+<h2 id="4final关键字">4.final关键字</h2>
+<p><code>final</code>关键字可以修饰类，成员变量和方法中的局部变量。<br>
+被<code>final</code>修饰的类不能被继承，修饰的方法不能被重写，修饰的变量成了常量(声明时必须<br>
+指定常量值)。</p>
+<h2 id="5对象的上转型对象">5.对象的上转型对象</h2>
+<pre><code class="language-java">public class Animal {
+  
+  public void eat(){
+    System.out.println(&quot;animal eatting...&quot;);
+  }
+}
+class Bird extends Animal{
+  
+  public void eat(){
+    System.out.println(&quot;bird eatting...&quot;);
+  }
+  
+  public void fly(){
+    
+    System.out.println(&quot;bird flying...&quot;);
+  }
+}
+class Main{
+  
+  public static void main(String[] args) {
+    
+    Animal b=new Bird(); //向上转型
+    b.eat(); 
+    //! error: b.fly(); b虽指向子类对象，但此时丢失fly()方法
+    dosleep(new Male());
+    dosleep(new Female());
+  }
+  
+  public static void dosleep(Human h) {
+    h.sleep();
+  }
+}
+</code></pre>
+<p>◆上转型对象可以代替子类对象去调用子类重写的实例方法。如果子类重写的方法是实例方法，那么上转型对象调用重写的方法时，就是通知对应的子类对象去调用这些方法。因此，如果子类重写了父类的某个实例方法后，子类对象的上转型对象调用这个方法时，一定是调用了这个重写的方法。</p>
+<p>◆上转型对象可以调用子类继承的成员变量和隐藏的成员变量。<br>
+<a href="https://postimg.cc/1nQJ8wfp"><img src="https://i.postimg.cc/hjJw30n3/IMG-20190322-203800.jpg" alt="IMG-20190322-203800.jpg"></a><br>
+<br><br>
+<a href="https://postimg.cc/zbFpKvg4"><img src="https://i.postimg.cc/76pcvTYP/IMG-20190322-203810.jpg" alt="IMG-20190322-203810.jpg"></a></p>
+<br>
+> 本文作者: 韩宇  
+本文链接: <http://stevenhy.com/post/2019-3-22-java-class-and-extends/>
+版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python ccf题解 201809-1 卖菜]]></title>
+        <id>http://stevenhy.com/post/2019-2-28-ccf-csp-maicai</id>
+        <link href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
+        </link>
+        <updated>2019-02-12T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>python ccf题解 201809-1 卖菜</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>python ccf题解 201809-1 卖菜</p>
+<!-- more -->
+<p>问题描述</p>
+<p>在一条街上有n个卖菜的商店，按1至n的顺序排成一排，这些商店都卖一种蔬菜。<br><br>
+　　第一天，每个商店都自己定了一个价格。店主们希望自己的菜价和其他商店的一致，第二天，每  一家商店都会根据他自己和相邻商店的价格调整自己的价格。具体的，每家商店都会将第二天的  菜价设置为自己和相邻商店第一天菜价的平均值（用去尾法取整）。<br><br>
+　　注意，编号为1的商店只有一个相邻的商店2，编号为n的商店只有一个相邻的商店n-1，其他编号为i的商店有两个相邻的商店i-1和i+1。<br><br>
+　　给定第一天各个商店的菜价，请计算第二天每个商店的菜价。<br></p>
+<p><em><strong>输入格式</strong></em><br>
+　　输入的第一行包含一个整数n，表示商店的数量。<br>
+　　第二行包含n个整数，依次表示每个商店第一天的菜价。</p>
+<p><em><strong>输出格式</strong></em></p>
+<p>输出一行，包含n个正整数，依次表示每个商店第二天的菜价。</p>
+<p>样例输入</p>
+<p>8<br>
+4 1 3 1 6 5 17 9</p>
+<p>样例输出</p>
+<p>2 2 1 3 4 9 10 13</p>
+<p>数据规模和约定</p>
+<p>对于所有评测用例，2 ≤ n ≤ 1000，第一天每个商店的菜价为不超过10000的正整数。</p>
+<pre><code class="language-python"># 卖菜
+# 输入
+n = int(input())
+a = list(map(int, input().split()))
+b = []
+# 计算第二天菜价
+for i in range(n):
+  if(i == 0):
+      b.append((a[0] + a[1]) // 2)
+  elif(i == n - 1):
+      b.append((a[-2] + a[-1]) // 2)
+  else:
+      b.append((a[i - 1] + a[i] + a[i + 1]) // 3)
+# 输出
+print(&quot; &quot;.join(map(str, b)))
+</code></pre>
+<br>
+> 本文作者: 韩宇  
+本文链接: <http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/>
+版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处
 ]]></content>
     </entry>
 </feed>

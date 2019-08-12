@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java子类与继承相关知识点 | stevenhy&#39;s pocket</title>
+<meta name="description" content="玻璃明亮, 橘子辉煌">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565613569196">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565613569196" class="site-logo">
+        <h1 class="site-title">stevenhy&#39;s pocket</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java子类与继承相关知识点</h2>
+            <div class="post-date">2019-02-22</div>
+            
+            <div class="post-content">
+              <p>Java子类与继承相关知识点</p>
+<!-- more -->
+<h2 id="1子类与父类">1.子类与父类</h2>
+<p>子类是由继承产生的，由关键词<code>extends</code>实现，例如当A类继承B类时，A类就是子类<br>
+B类是父类。子类可以继承父类中不是<code>Private</code>的属性和方法作为自己的方法。<br>
+若子类与父类不在同一包内则只能继承<code>public</code>和<code>protected</code>修饰的变量和方法。</p>
+<h2 id="2成员变量的隐藏及方法的重写">2.成员变量的隐藏及方法的重写</h2>
+<p>当子类新定义的成员变量与父类存在同名时，从父类那里继承来的成员变量就会被隐藏，<br>
+子类不可直接调用，但可以通过从父类继承的方法进行调用。<br>
+同时子类也可以重写从父类继承来的方法，从而实现想要的功能，但是需要注意的是，<br>
+方法的名字，参数个数，参数类型，必须和父类的完全相同，不一样的只能是方法体。</p>
+<h2 id="3super关键字">3.super关键字</h2>
+<p>上面谈到，子类可以隐藏父类的成员变量及方法，那么如何调用这些被隐藏的变量及方法呢<br>
+用<code>super</code>！当这些变量或方法被隐藏后就归super所有，例如<code>super.x</code> , <code>super.play()</code> ,<br>
+分别调用了被子类隐藏的变量x和方法play。<br>
+特别注意，当我们构造一个子类对象时，程序总会先构造该子类的父类对象，记住！<br>
+<strong>子类不会继承父类的构造方法</strong> 也就是说，如果子类的构造方法没有明显的指出<br>
+要使用父类的哪一个构造方法，子类会默认调用父类不带参数的构造方法。因此，子类在<br>
+其构造方法中需要<code>super();</code>来调用父类的构造方法。(<s>没写也默认带</s>)<br>
+<em><strong>例如仔细领悟如下代码中<code>super</code>的用法</strong></em></p>
+<pre><code class="language-java">class Vehicle {
+    int a;//轮子数
+    double b;//自身重量
+    Vehicle(int a, double b) {
+        this.a=a;
+        this.b=b;
+    }
+    void show() {
+        System.out.println(&quot;汽车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+    }
+}
+class Car extends Vehicle {
+    int c;//载客属性
+    Car(int a, double b, int c) {
+        super(a, b);//重点看这里的super！！！
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    void show() {
+        System.out.println(&quot;小轿车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+        System.out.println(&quot;额定乘客数:&quot;+c+&quot;人&quot;);
+    }
+}
+</code></pre>
+<h2 id="4final关键字">4.final关键字</h2>
+<p><code>final</code>关键字可以修饰类，成员变量和方法中的局部变量。<br>
+被<code>final</code>修饰的类不能被继承，修饰的方法不能被重写，修饰的变量成了常量(声明时必须<br>
+指定常量值)。</p>
+<h2 id="5对象的上转型对象">5.对象的上转型对象</h2>
+<pre><code class="language-java">public class Animal {
+  
+  public void eat(){
+    System.out.println(&quot;animal eatting...&quot;);
+  }
+}
+class Bird extends Animal{
+  
+  public void eat(){
+    System.out.println(&quot;bird eatting...&quot;);
+  }
+  
+  public void fly(){
+    
+    System.out.println(&quot;bird flying...&quot;);
+  }
+}
+class Main{
+  
+  public static void main(String[] args) {
+    
+    Animal b=new Bird(); //向上转型
+    b.eat(); 
+    //! error: b.fly(); b虽指向子类对象，但此时丢失fly()方法
+    dosleep(new Male());
+    dosleep(new Female());
+  }
+  
+  public static void dosleep(Human h) {
+    h.sleep();
+  }
+}
+</code></pre>
+<p>◆上转型对象可以代替子类对象去调用子类重写的实例方法。如果子类重写的方法是实例方法，那么上转型对象调用重写的方法时，就是通知对应的子类对象去调用这些方法。因此，如果子类重写了父类的某个实例方法后，子类对象的上转型对象调用这个方法时，一定是调用了这个重写的方法。</p>
+<p>◆上转型对象可以调用子类继承的成员变量和隐藏的成员变量。<br>
+<a href="https://postimg.cc/1nQJ8wfp"><img src="https://i.postimg.cc/hjJw30n3/IMG-20190322-203800.jpg" alt="IMG-20190322-203800.jpg"></a><br>
+<br><br>
+<a href="https://postimg.cc/zbFpKvg4"><img src="https://i.postimg.cc/76pcvTYP/IMG-20190322-203810.jpg" alt="IMG-20190322-203810.jpg"></a></p>
+<br>
+> 本文作者: 韩宇  
+本文链接: <http://stevenhy.com/post/2019-3-22-java-class-and-extends/>
+版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="http://stevenhy.com/tag/java" class="tag">
+                    Java
+                  </a>
+                
+                  <a href="http://stevenhy.com/tag/xue-xi-bi-ji" class="tag">
+                    学习笔记
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
+                  <h3 class="post-title">
+                    python ccf题解 201809-1 卖菜
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '0ea7409b2c225a0a6a5c',
+        clientSecret: '4785880f1cf8f357a26f8fa8f2401d7758b31f74',
+        repo: 'Hanyuyu.github.io',
+        owner: 'Hanyuyu',
+        admin: ['Hanyuyu'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java abstract类与接口 | stevenhy&#39;s pocket</title>
+<meta name="description" content="玻璃明亮, 橘子辉煌">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565613569196">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565613569196" class="site-logo">
+        <h1 class="site-title">stevenhy&#39;s pocket</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java abstract类与接口</h2>
+            <div class="post-date">2019-03-22</div>
+            
+            <div class="post-content">
+              <h1 id="关于abstract类与接口">关于abstract类与接口</h1>
+<!-- more -->
+<h2 id="1如何理解abstract">1.如何理解abstract</h2>
+<p>举个简单的例子，我们要编写一个可以计算柱状体体积的一个程序，我们会用到下面这个计算公式：</p>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>V</mi><mi>o</mi><mi>l</mi><mi>u</mi><mi>m</mi><mo>=</mo><mi>B</mi><mi>o</mi><mi>t</mi><mi>t</mi><mi>o</mi><mi>m</mi><mi>a</mi><mi>r</mi><mi>e</mi><mi>a</mi><mo>∗</mo><mi>h</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Volum = Bottomarea * height
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span></span></span></span></span></p>
+<p>对于<code>heigth</code>来说，我们很容易确定它的数值，可是对于<code>Bottomarea</code>就不是那么容易了，<br>
+我们需要根据不同的形状来求出它的值，比如矩形，圆形或者是一个三角形等等。<br>
+我们不可能考虑到所有的情况（这样非常耗费精力与时间）。<br>
+但是体积的计算公式时很明确的，那么是否可以把<code>Bottomarea</code>当成已知量，只关注功能的实现。<br>
+具体柱体的底面积是什么，根据确定需求来调用实现呢？<br>
+ 这样，有了<code>abstract</code>的出现。</p>
+<p>在Java中，我们可以定义一个abstract类来实现具体的功能，至于一些功能的细节，由其子类去具体调用该功能时给出。<br>
+根据上例，我们来定义一个这样的类：</p>
+<pre><code class="language-java">abstract class Geometry {
+    public abstract double getArea(); 
+}//将所有计算面积的方法抽象成一个方法，不再考虑具体细节
+
+
+//定义一个柱类 Piallar
+public class  Pillar {
+    Gemetry bottom;//bottom是抽象类Geometry声明的变量
+    double height;
+    Pillar (Geometry bottom, double height) {
+        this.bottom = bottom;
+        this.height = height;
+    }
+    public double getVolum() {
+        if(bottom==null) {
+            System.out.println(&quot;没有底，无法计算体积&quot;);
+            return -1;
+        }
+        return bottom.getArea()*height;
+        //bottom可以调用子类重写的getarea()方法
+    }
+}
+</code></pre>
+<p><strong>以下给出<code>abstract</code>类在定义时需要注意的一些要点：</strong></p>
+<ol>
+<li><code>abstract</code>不能用new运算符创建对象，必须创建其子类，由其子类创建对象。</li>
+<li><code>abstract</code>类中的<code>abstract</code>方法只允许声明而不允许实现，其子类必须实现其继承的<code>abstract</code>方法，即重写<code>abstract</code>方法。</li>
+<li>一个<code>abstract</code>类只关心子类是否具有某种功能，不关心功能的具体实现。具体实现由子类负责。</li>
+<li>抽象类中可以包含抽象方法，为所有子类定义一个统一的接口，具体实现由子类完成。</li>
+<li>抽象类中不一定要包含<code>abstract</code>方法，但是，一旦某个类中包含了<code>abstract</code>方法，则这个类必须声明为<code>abstract</code>类。</li>
+</ol>
+<p>子类实现举例：</p>
+<pre><code class="language-java">//当底面是圆形时
+public class Circle extends Geometry {
+    double r;
+    Circle(double r) {
+        this.r = r;
+    }
+    public double getArea() {
+        return(3.14*r*r);
+    }
+}
+
+public class APP {
+    public static void main(String args[]) {
+        Piallar piallar;
+        Geometry bottom = new Circle(10);//指定其底面为圆形
+        piallar = new Piallar(bottom 100);
+        System.out.println(&quot;体积&quot;+piallar.getVolum());
+    }
+}
+
+</code></pre>
+<blockquote>
+<p><strong>总结</strong><br>
+通过面向抽象来设计Piallar类，使得Piallar类不再依赖具体不变的类，当我们增加一个Triangle的子类，我们不需要修改Piallar类的任何代码，就可以创建出具有三角形底的柱体。</p>
+</blockquote>
+<p>总体来说，面向抽象编程的目的是为了应对用户需求的变化。核心是让类中每种可能的变化<br>
+对应的交给抽象类的一个子类去负责，避免所设计的类依赖于具体的实现。</p>
+<hr>
+<h2 id="接口与实现">接口与实现</h2>
+<p>  由于Java不支持多继承性，即一个类只能有一个父类，当子类里要实现多个方法时，便显得捉襟见肘（只能继承一个抽象类），为了克服单继承的缺点，Java提供了接口。<br>
+接口定义的是多个类的共同行为规范，这些行为是与外部交流的通道，因此，接口定义的是一组公用方法。<br>
+  使用关键字<code>interface</code>来定义一个接口</p>
+<ul>
+<li>接口体中包含常量定义和方法定义两部分。接口体中只进行方法的声明，不许提供方法的实现，所以，方法的定义没有方法体，且用分号“；”结尾 。</li>
+<li>接口中的方法被默认是public和abstract的，接口在声明方法时可以省略方法前面的public和abstract关键字，但是，类在实现接口方法时，一定要用public来修饰。</li>
+<li>类实现的接口方法以及接口中的常量可以被类的对象调用。</li>
+</ul>
+<pre><code class="language-java">interface Printable {
+    final int Max = 100;
+    void add();
+    float sum(float x, float y);
+}
+</code></pre>
+<p>实现接口用关键字<code>implements</code>声明，如果要实现多个接口，用逗号隔开接口名</p>
+<pre><code class="language-java">class A implements Printable,Addable {
+    //A类实现了Printable，Addable接口。
+    }
+</code></pre>
+<p>体会以下例子中接口的调用：</p>
+<pre><code class="language-java">
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String a,b;
+        Scanner reader = new Scanner(System.in);
+        a = reader.next();
+        b = reader.next();
+        Paper p = new A4Paper();//接口回调
+        A4Paper.name = a;
+        Printer printer = new Printer();
+        printer.Print(p);
+        p = new A6Paper();//接口回调
+        A6Paper.name = b;
+        printer.Print(p);
+    }
+
+}
+
+interface Paper {
+    String GetName();
+}
+
+class A4Paper implements Paper {
+    static String name;
+    public String GetName() {
+        return A4Paper.name;
+    }
+}
+
+class A6Paper implements Paper {
+    static String name;
+    public String GetName() {
+        return A6Paper.name;
+    }
+}
+
+class Printer {
+    public void Print(Paper p) {
+        System.out.println(p.GetName());
+    }
+}
+
+</code></pre>
+<p><strong>要点</strong></p>
+<ul>
+<li>接口中所有成员，包括属性、方法、内部类都是public访问权限</li>
+<li>不管是否使用public static final修饰符，接口里的属性总是用这三个修饰符来修饰，即：接口中只能有常量</li>
+<li>接口中的方法都是抽象方法，系统自动为其添加abstract修饰符</li>
+<li>接口中不允许定义static方法</li>
+<li>接口不能用于创建实例，但接口可用于声明引用类型的变量，这个引用类型的变量必须引用到其实现类的对象。<br>
+例如：Computable c=new Computable();       X<br>
+   Computable c=new A();    √</li>
+</ul>
+ <br>  
+<hr>
+<br>  
+<h2 id="abstract类与接口的比较">abstract类与接口的比较</h2>
+<ul>
+<li><code>abstract</code>类和接口都可以有<code>abstract</code>方法。</li>
+<li>接口中只可以有常量，不能有变量；而<code>abstract</code>类中即可以有常量也可以有变量。</li>
+<li><code>abstract类</code>中也可以有非abstract方法，接口不可以。</li>
+<li>抽象类表示的是，这个对象是什么。接口表示的是，这个对象能做什么</li>
+<li>抽象类和接口都不能直接实例化，如果要实例化，抽象类变量必须指向实现所有抽象方法的子类对象，接口变量必须指向实现所有接口方法的类对象。即：抽象类要被子类继承，接口要被类实现。</li>
+<li>接口作为系统与外界交互的窗口，体现的是一种规范。类似于整个系统的“总纲”，制定了系统各模块应该遵循的标准，因此一个接口不应该经常改变。在一个程序中，接口是多个模块间的耦合标准；在多个应用程序之间使用接口，接口是多个应用程序间的通信标准。</li>
+<li>抽象类体现的是一种“模板”式设计。抽象类作为多个子类的抽象父类，可被当做系统实现过程中的中间产品，实现了系统部分功能，需要进一步完善才能成为最终产品。<br>
+<br></li>
+</ul>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/2019-3-22-java-abstract-and-interface/">http://stevenhy.com/post/2019-3-22-java-abstract-and-interface/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="http://stevenhy.com/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
+                  <h3 class="post-title">
+                    python ccf题解 201803-1 跳一跳
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '0ea7409b2c225a0a6a5c',
+        clientSecret: '4785880f1cf8f357a26f8fa8f2401d7758b31f74',
+        repo: 'Hanyuyu.github.io',
+        owner: 'Hanyuyu',
+        admin: ['Hanyuyu'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
