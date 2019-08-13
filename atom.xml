@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-13T12:39:36.182Z</updated>
+    <updated>2019-08-13T12:50:18.003Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -642,8 +642,52 @@ LinkedListQueue: Front 3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;NULL Tail
 
 LinkedListQueue: Front 3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;9-&gt;NULL Tail
 </code></pre>
+<p>现在我们有三种可以实现队列的方法了，分别是ArrayQueue, LoopQueue, LinkedListQueue. 现在来比较一下他们的性能吧！</p>
+<pre><code class="language-java">public class Main {
+		// 测试使用q运行opCount个enqueueu和dequeue操作所需要的时间，单位：秒
+	    private static double testQueue(Queue&lt;Integer&gt; q, int opCount){
+
+	        long startTime = System.nanoTime();
+
+	        Random random = new Random();
+	        for(int i = 0 ; i &lt; opCount ; i ++)
+	            q.enqueue(random.nextInt(Integer.MAX_VALUE));
+	        for(int i = 0 ; i &lt; opCount ; i ++)
+	            q.dequeue();
+
+	        long endTime = System.nanoTime();
+
+	        return (endTime - startTime) / 1000000000.0;
+	    }
+
+	    public static void main(String[] args) {
+
+	        int opCount = 100000;
+
+	        ArrayQueue&lt;Integer&gt; arrayQueue = new ArrayQueue&lt;&gt;();
+	        double time1 = testQueue(arrayQueue, opCount);
+	        System.out.println(&quot;ArrayQueue, time: &quot; + time1 + &quot; s&quot;);
+
+	        LoopQueue&lt;Integer&gt; loopQueue = new LoopQueue&lt;&gt;();
+	        double time2 = testQueue(loopQueue, opCount);
+	        System.out.println(&quot;LoopQueue, time: &quot; + time2 + &quot; s&quot;);
+	        
+	        LinkedListQueue&lt;Integer&gt; LinkedQueue = new LinkedListQueue&lt;&gt;();
+	        double time3 = testQueue(LinkedQueue, opCount);
+	        System.out.println(&quot;LinkedQueue, time: &quot; + time3 + &quot; s&quot;);
+	}
+
+}
+</code></pre>
+<p><strong>一起来看看结果叭</strong></p>
+<pre><code class="language-java">ArrayQueue, time: 49.172133193 s
+LoopQueue, time: 0.013723476 s
+LinkedQueue, time: 0.008158352 s
+</code></pre>
 <br>
-<p><strong>完美┗|｀O′|┛ 嗷~~</strong></p>
+<p>这就是数据结构充满魅力的地方叭，一步步去探索最优解法，不断锻炼思维能力才是我们的终极目标鸭😄</p>
+<br>
+<p><strong>今天就到这里了嗷~</strong></p>
 <hr>
 <br>  
 <p><strong>推荐阅读</strong><br>
