@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>数据结构回顾 - 链表实现及应用 | stevenhy&#39;s pocket</title>
+<meta name="description" content="玻璃明亮, 橘子辉煌">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565699849043">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565699849043" class="site-logo">
+        <h1 class="site-title">stevenhy&#39;s pocket</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">数据结构回顾 - 链表实现及应用</h2>
+            <div class="post-date">2019-08-13</div>
+            
+            <div class="post-content">
+              <p>之前我们自己编写了动态数组, 并以此实现了栈和队列,但是我们所谓的动态数组底层依然是依托于静态数组, 称其为动态是因为可以适时对容量做出控制.  今天来回顾一个非常重要的数据结构-链表. 相较于动态数组, 链表可谓是真正意义上的动态结构.</p>
+<!-- more -->
+<h2 id="1linkedlist类的编写">1.LinkedList类的编写</h2>
+<p>相较于静态数组来说, 链表最大的优势在于实现了真正的动态, 但是丧失了根据索引随机访问的能力. 但是我们学习链表的目的不仅绝限于此, 事实上链表是一种最简单的动态数据结构, 掌握好链表会为之后的更难的数据结构打好基础, 同时也有利于更深入的理解引用及递归的知识.</p>
+<p>废话不多说, 开始写代码</p>
+<pre><code class="language-java">public class LinkedList&lt;E&gt; {
+	private class Node{
+		public E e;
+		public Node next;
+		
+		public Node(E e, Node next) {
+			this.e = e;
+			this.next = next;
+		}
+		
+		public Node(E e) {
+			this(e, null);
+		}
+		
+		public Node() {
+			this(null, null);
+		}
+		
+		@Override
+		public String toString() {
+			return e.toString();
+		}
+	}
+
+	private Node head;
+	private int size;
+
+	//构造方法
+	public LinkedList() {
+		head = null;
+		size = 0;
+	}
+
+	//获取链表中元素个数
+	public int getSize() {
+		return size;
+	}
+
+	//判断链表是否为空
+	public boolean isEmpty() {
+		return size==0;
+	}
+
+	//在链表头部添加元素
+	public void addFirst(E e) {
+		/*Node node = new Node(e);
+		node.next = head;
+		head =node;*/
+		head = new Node(e, head); //一行代码更优雅
+		size++;
+	}
+	
+	//在链表中间添加元素,在'索引'为index的时候添加元素e
+	public void add(int index,E e) {
+		if(index &lt; 0 || index &gt;size)
+			throw new IllegalArgumentException(&quot;Add failed. Illegal index.&quot;);
+		
+		if(index == 0)
+			addFirst(e);
+		else{	
+			Node prev = head;
+			for(int i=0; i&lt;index-1; i++) 
+				prev = prev.next;
+			/*Node node = new Node(e);
+			node.next = prev.next;
+			prev.next = node;*/
+			prev.next = new Node(e, prev.next); //同样比较轻便
+			size++;
+		
+		} 
+	}		
+	
+	 //向链表尾部添加元素
+	public void addLast(E e) {
+		add(size, e);
+	}
+
+}
+</code></pre>
+<p>写到这里, 我便感觉有点不对, 虽然说实际中对链表的操作不会从中间元素开刀, 但是对于我们梳理学习链表知识, 缺需要练习对中间元素的操作, 以便深入理解链表. 从上面的add操作 可以看出, 这样写的话, 需要判断的内容甚多, 尤其在表头前添加元素时, 由于没有前驱, 需要另行编写代码, 比较繁琐. 于是为了统一操作, 我们设立一个虚拟头结点放在表头元素的前面, 该虚拟头结点不存放任何数据, 只起辅助作用.这样会方便很多, 于是 重来一遍!😂<br>
+**先声明：一下中的index指的时用户眼中的index,用户 并不知道有虚拟头节点，且数据位置从0开始计数！</p>
+<pre><code class="language-java">public class LinkedList改进&lt;E&gt; {
+	private class Node{
+		public E e;
+		public Node next;
+		
+		public Node(E e, Node next) {
+			this.e = e;
+			this.next = next;
+		}
+		
+		public Node(E e) {
+			this(e, null);
+		}
+		
+		public Node() {
+			this(null, null);
+		}
+		
+		@Override
+		public String toString() {
+			return e.toString();
+		}
+	}
+
+	private Node dummyHead;
+	private int size;
+	
+	//构造方法
+	public LinkedList改进() {
+		dummyHead = new Node(null, null); //采用虚拟头结点
+		size = 0;
+	}
+	
+	//获取链表中元素个数 O(1)
+	public int getSize() {
+			return size;
+		}
+
+	//判断链表是否为空 O(1)
+	public boolean isEmpty() {
+		return size==0;
+	}
+
+	//向链表中index位置(从0开始),添加元素e O(1/2n)=O(n)
+	public void add(int index, E e) {
+		//1.判断index是否合法, 不合法抛出异常
+		if(index &lt; 0 || index &gt; size)
+			throw new IllegalArgumentException(&quot;Add Failed. Illegal index.&quot;);
+		//2.添加元素,有了虚拟头结点不用担心0位置的元素没有前驱
+		Node pre = dummyHead;
+		for(int i=0; i&lt;index ;i++) 
+			pre = pre.next;
+		//3.此时pre中存放的便是待放入元素e的前驱节点
+		//Node node = new Node(e);
+		//node.next = pre.next;
+		//pre.next = node;
+		//上面的步骤3可简化为一句,显得优雅轻便
+		 pre.next = new Node(e, pre.next);
+		//4.此时元素已经进入链表, 我们需要维护一下size变量
+		size++;
+		//O(1/2n)=O(n)
+	}
+	
+	//借助add操作完成向表头添加元素的位置  O(1)
+	public void addFirst(E e) {
+		add(0,e);  //O(1)
+	}
+	
+	//向链表尾部添加元素e  O(n)
+	public void addLast(E e) {
+		add(size, e);   //O(n)
+	}
+	
+	//获取index位置的元素, 这里的index是用户层面的  O(n)
+	public E get(int index) {
+		if(index &lt; 0 || index &gt; size)
+			throw new IllegalArgumentException(&quot;get Failed. Illegal index.&quot;);
+		
+		Node cur = dummyHead.next;
+		for(int i=0; i&lt;index; i++) 
+			cur = cur.next;
+		return cur.e;
+	}
+	
+	//获取第一个元素  O(1)
+	public E getFist() {
+		return get(0);
+	}
+	
+	//获取最后一个元素  O(n)
+	public E getLast() {
+		return get(size-1);
+	}
+	
+	//修改链表中的第index个位置的元素为e  O(n)
+	//在链表中不是一个常用操作, 练习用
+	public void set(int index, E e) {
+		//1.惯例先判断index是否合法
+		if(index &lt; 0 || index &gt; size)
+			throw new IllegalArgumentException(&quot;Set Failed. Illegal index.&quot;);
+		//2.确定index位置元素节点
+		Node cur = dummyHead.next;
+		for(int i=0; i&lt;index ;i++)
+			cur = cur.next;
+		cur.e = e;
+	}
+	
+	//修改表头元素
+	public void setFirst(E e) {
+		set(0, e);
+	}
+	
+	//查找链表中是否存在元素e  O(n)
+	public boolean contains(E e) {
+		Node cur = dummyHead.next;
+		while(cur != null) {
+			if(cur.equals(e))
+				return true;
+			cur = cur.next;
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		
+		/*Node cur = dummyHead.next;
+		while(cur != null) {
+			res.append(cur + &quot;-&gt;&quot;);
+			cur = cur.next;
+		}*/
+		for(Node cur = dummyHead.next ; cur != null ; cur = cur.next)
+			res.append(cur + &quot;-&gt;&quot;);
+		res.append(&quot;NULL&quot;);  //与上面的遍历方式作用相同
+		
+		return res.toString();
+	}
+	
+	//从链表中删除index位置的元素, 并返回删除元素  O(n)
+	//在链表中并不是一个常用的操作, 练习用
+	public E remove(int index) {
+		
+		//1.老规矩, 先判断index是否合法
+		if(index &lt; 0 || index &gt; size)
+			throw new IllegalArgumentException(&quot;Remove Failed. Illegal index.&quot;);
+		//2.找到要删除节点的前驱节点
+		Node prev = dummyHead;
+		for(int i=0; i&lt;index; i++)
+			prev = prev.next;
+		//3.找到待删除的节点,并确定返回值
+		Node dele = dummyHead.next;
+		for(int i=0; i&lt;index; i++)
+			dele = dele.next;
+		E ret = dele.e;
+		//4.执行删除操作
+		prev.next = dele.next;
+		dele.next = null;
+		//5.维护size变量
+		size--;
+		return ret;
+		//O(1/2n)=O(n)
+	}
+	
+	//删除第一个元素  O(1)
+	public E removeFirst() {
+		return remove(0);  //O(1)
+	}
+	
+	//删除最后一个元素  O(n)
+	public E removeLast() {
+		return remove(size-1);   //O(n)
+	}
+	
+	
+}
+</code></pre>
+<p>验证一下吧</p>
+<pre><code class="language-java">	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		LinkedList改进&lt;Integer&gt; linkedlist= new LinkedList改进&lt;&gt;();
+		
+		for(int i=0; i&lt;5;i++) {
+			linkedlist.addFirst(i);
+			System.out.println(linkedlist);
+		}
+		
+		linkedlist.add(2, 666);
+		System.out.println(&quot;After Add:&quot;);
+		System.out.println(linkedlist);
+		
+		linkedlist.remove(2);
+		System.out.println(&quot;After remove:&quot;);
+		System.out.println(linkedlist);
+		linkedlist.removeFirst();
+		System.out.println(&quot;After removeFirst:&quot;);
+		System.out.println(linkedlist);
+		linkedlist.removeLast();
+		System.out.println(&quot;After removeLast:&quot;);
+		System.out.println(linkedlist);
+	}
+</code></pre>
+<p>效果如下：</p>
+<pre><code class="language-java">0-&gt;NULL
+1-&gt;0-&gt;NULL
+2-&gt;1-&gt;0-&gt;NULL
+3-&gt;2-&gt;1-&gt;0-&gt;NULL
+4-&gt;3-&gt;2-&gt;1-&gt;0-&gt;NULL
+After Add:
+4-&gt;3-&gt;666-&gt;2-&gt;1-&gt;0-&gt;NULL
+After remove:
+4-&gt;3-&gt;2-&gt;1-&gt;0-&gt;NULL
+After removeFirst:
+3-&gt;2-&gt;1-&gt;0-&gt;NULL
+After removeLast:
+3-&gt;2-&gt;1-&gt;NULL
+</code></pre>
+<h2 id="2分析">2.分析</h2>
+<p>至此，我们已经大致实现了链表，在编写过程中有这么几点需要注意：</p>
+<ul>
+<li>由于虚拟头节点的引入，在遍历链表的时候要注意循环条件，必要时需画图验证。</li>
+<li>找index位置节点的前驱时，从dummyHead出发遍历index次，即可到前驱</li>
+<li>找index位置的节点时，比如contains操作，从dummHead.next开始遍历index次到达。</li>
+</ul>
+<p>分析我们实现的链表各项操作的复杂度：</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>addFirst</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>addLast</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>removeFirst</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>removeLast</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>set</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>setFirst</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>contains</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>get</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>getFirst</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>getLast</td>
+<td>O(n)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3拓展1">3.拓展1</h2>
+<p>这里有个有意思的点 ，对于链表来说, 只有头结点的增删查操作是O(1), 非常快,想到了什么😂<br>
+这恰恰是我们的栈所需要的结构啊！<br>
+不用链表实现一下栈对不起我这一顿分析啊哈哈🙋‍♂️<br>
+开搞！<br>
+继续实现Stack接口，这时，你就要禁不住赞叹，多态大法好哇！😎</p>
+<pre><code class="language-java">public class LinkedListStack&lt;E&gt; implements Stack&lt;E&gt; {
+	
+	private LinkedList改进&lt;E&gt; list;
+	
+	public LinkedListStack() {
+		list = new LinkedList改进(); 
+	}
+
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return list.getSize();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return list.isEmpty();
+	}
+
+	@Override
+	public void push(E e) {
+		// TODO Auto-generated method stub
+		list.addFirst(e);
+	}
+
+	@Override
+	public E pop() {
+		// TODO Auto-generated method stub
+		return list.removeFirst();
+	}
+
+	@Override
+	public E peek() {
+		// TODO Auto-generated method stub
+		return list.getFist();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		res.append(&quot;LinkedListStack: Top &quot;);
+		res.append(list);
+		return res.toString();
+	}	
+}
+</code></pre>
+<p>加一个main函数验证一下：</p>
+<pre><code class="language-java">	public static void main(String[] args) {
+		LinkedListStack&lt;Integer&gt; stack = new LinkedListStack&lt;&gt;();
+		for(int i=0;i&lt;5;i++) {
+			stack.push(i);
+			System.out.println(stack);
+		}
+		stack.pop();
+		System.out.println(stack);
+	}
+</code></pre>
+<p>上效果</p>
+<pre><code class="language-java">LinkedListStack: Top 0-&gt;NULL
+LinkedListStack: Top 1-&gt;0-&gt;NULL
+LinkedListStack: Top 2-&gt;1-&gt;0-&gt;NULL
+LinkedListStack: Top 3-&gt;2-&gt;1-&gt;0-&gt;NULL
+LinkedListStack: Top 4-&gt;3-&gt;2-&gt;1-&gt;0-&gt;NULL
+LinkedListStack: Top 3-&gt;2-&gt;1-&gt;0-&gt;NULL
+</code></pre>
+<p>到这里用链表实现了栈,主要是对表头元素的增删查复杂度为O(1)的特点很适合栈。<br>
+现在我们有了两种栈的实现方式，究竟哪一种性能好呢？来比比看啊</p>
+<pre><code class="language-java">import java.util.Random;
+
+
+public class Compare {
+
+    // 测试使用stack运行opCount个push和pop操作所需要的时间，单位：秒
+    private static double testStack(Stack&lt;Integer&gt; stack, int opCount){
+
+        long startTime = System.nanoTime();
+
+        Random random = new Random();
+        for(int i = 0 ; i &lt; opCount ; i ++)
+            stack.push(random.nextInt(Integer.MAX_VALUE));
+        for(int i = 0 ; i &lt; opCount ; i ++)
+            stack.pop();
+
+        long endTime = System.nanoTime();
+
+        return (endTime - startTime) / 1000000000.0;
+    }
+
+    public static void main(String[] args) {
+
+        int opCount = 100000;
+
+        ArrayStack&lt;Integer&gt; arrayStack = new ArrayStack&lt;&gt;();
+        double time1 = testStack(arrayStack, opCount);
+        System.out.println(&quot;ArrayStack, time: &quot; + time1 + &quot; s&quot;);
+
+        LinkedListStack&lt;Integer&gt; linkedListStack = new LinkedListStack&lt;&gt;();
+        double time2 = testStack(linkedListStack, opCount);
+        System.out.println(&quot;LinkedListStack, time: &quot; + time2 + &quot; s&quot;);
+
+        // 其实这个时间比较很复杂，因为LinkedListStack中包含更多的new操作
+    }
+}
+</code></pre>
+<p>具体比较下来也很客观, 在元素数量不是很大的时候链表栈性能要优于之前以动态数组为底层的栈, 这是因为动态数组中会时不时的进行resize操作, 当然如果元素数量巨大的时候（一千万）, 链表栈也会比动态数组栈要慢 一点, 究其原因 可能是由于链表内部有大量节点导致存在大量的new操作,使其变慢. 但是总体来讲这两种栈的时间复杂度是相同的, 虽然由于外部原因可能会存在一些性能差异, 但这些差异始终较小, 差不了多少.👌</p>
+<h2 id="4拓展2">4.拓展2</h2>
+<p>栈也搞完了， 同样的我们也可以拿链表来实现队列，为了实现以链表为底层的队列, 我们需要考虑几个问题, 对于链表来说, 只对表头元素进行增删查才可以实现<br>
+O(1)的复杂度, 但是对于队列来说, dequeue操作需要出队操作, 不能只操作一端, 需涉及到表尾元素 这样复杂度就不是O(1)了, 如何解决? 回想在依托动态数组实现队列的时候也遇到了相应的问题, 我们的解决方案是添加了tail这一成员变量,专门记录队尾元素的位置, 同理我们也可以在链表中添加一个 tail节点用于记录表尾节点,这样对表尾的插入元素就会容易点. 还有一个问题, 我们要选用链表的哪一端进行入队操作呢? 就上面的复杂度分析来看, 对表头元素的增删都是O(1), 而对于表尾元素<br>
+增是O(1), 删的话就麻烦一点, 因为我们还需要表尾元素的前驱节点. 分析下来, 结果就很显然了用表头做队首, 用表尾做队尾, 新增tail节点管理表尾位置, 复杂度为O(1), 而且因为队列不涉及对中间元素的操作,就不需要再用虚拟头结点了。</p>
+<p>理清思路之后， 开始coding！💨<br>
+同样，我们直接去实现Queue接口。</p>
+<pre><code class="language-java">public class LinkedListQueue&lt;E&gt; implements Queue&lt;E&gt; {
+   
+   private class Node{
+   	public E e;
+   	public Node next;
+   	
+   	public Node(E e, Node next) {
+   		this.e = e;
+   		this.next = next;
+   	}
+   	
+   	public Node(E e) {
+   		this(e, null);
+   	}
+   	
+   	public Node() {
+   		this(null, null);
+   	}
+   	
+   	@Override
+   	public String toString() {
+   		return e.toString();
+   	}
+   }
+
+   private Node head;
+   private Node tail;
+   private int size;
+   
+   public LinkedListQueue() {
+   	head = null;
+   	tail = null;
+   	size = 0;
+   }
+
+   @Override
+   public int getSize() {
+   	// TODO Auto-generated method stub
+   	return size;
+   }
+
+   @Override
+   public boolean isEmpty() {
+   	// TODO Auto-generated method stub
+   	return size==0;
+   }
+
+   @Override
+   public void enqueue(E e) {
+   	// TODO Auto-generated method stub
+   	//1.判断此时队列是否为空
+   	if(tail == null) {
+   		tail = new Node(e);
+   		head = tail;
+   	}
+   	else {
+   		tail.next = new Node(e);
+   		tail = tail.next;
+   	}
+   	size++;
+   }
+
+   @Override
+   public E dequeue() {
+   	// TODO Auto-generated method stub
+   	if(isEmpty())
+   		throw new IllegalArgumentException(&quot;Dequeue Failed. Queue is empty.&quot;);
+   	Node ret = head;
+   	head = head.next;
+   	ret.next = null;
+   	if(head == null)
+   		tail = null;
+   	size--;
+   	return ret.e;
+   }
+
+   @Override
+   public E getFront() {
+   	// TODO Auto-generated method stub
+   	return head.e;
+   }
+   
+   public String toString() {
+   	StringBuilder res = new StringBuilder();
+   	res.append(&quot;LinkedListQueue: Front &quot;);
+   	Node node = head;
+   	while(node != null) {
+   		res.append(node+&quot;-&gt;&quot;);
+   		node = node.next;
+   	}
+   	res.append(&quot;NULL Tail&quot;);
+   	return res.toString();
+   }
+}
+</code></pre>
+<p>ok，主体已经写完，加个main函数看看效果。</p>
+<pre><code class="language-java">	public static void main(String[] args) {
+   	LinkedListQueue&lt;Integer&gt; queue = new LinkedListQueue&lt;&gt;();
+   	for(int i=0;i&lt;10;i++) {
+   		queue.enqueue(i);
+   		System.out.println(queue);
+   		System.out.println();
+   		if(i%3 == 2) {
+   			queue.dequeue();
+   			System.out.println(queue);
+   			System.out.println();
+   		}
+   	}
+   }
+</code></pre>
+<p>结果如下</p>
+<pre><code class="language-java">LinkedListQueue: Front 0-&gt;NULL Tail
+
+LinkedListQueue: Front 0-&gt;1-&gt;NULL Tail
+
+LinkedListQueue: Front 0-&gt;1-&gt;2-&gt;NULL Tail
+
+LinkedListQueue: Front 1-&gt;2-&gt;NULL Tail
+
+LinkedListQueue: Front 1-&gt;2-&gt;3-&gt;NULL Tail
+
+LinkedListQueue: Front 1-&gt;2-&gt;3-&gt;4-&gt;NULL Tail
+
+LinkedListQueue: Front 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL Tail
+
+LinkedListQueue: Front 2-&gt;3-&gt;4-&gt;5-&gt;NULL Tail
+
+LinkedListQueue: Front 2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;NULL Tail
+
+LinkedListQueue: Front 2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;NULL Tail
+
+LinkedListQueue: Front 2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;NULL Tail
+
+LinkedListQueue: Front 3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;NULL Tail
+
+LinkedListQueue: Front 3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;9-&gt;NULL Tail
+</code></pre>
+<br>
+<p><strong>完美┗|｀O′|┛ 嗷~~</strong></p>
+<hr>
+<br>  
+<p><strong>推荐阅读</strong><br>
+<a href="http://stevenhy.com/post/sjjghg-zddcsx/">数据结构回顾-栈的底层实现</a><br>
+<a href="http://stevenhy.com/post/RPOfy91HP/">数据结构回顾-队列的实现与优化</a><br>
+<br></p>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/FiTjgJh8i/">http://stevenhy.com/post/FiTjgJh8i/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/RPOfy91HP">
+                  <h3 class="post-title">
+                    数据结构回顾 - 队列的实现与优化
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '0ea7409b2c225a0a6a5c',
+        clientSecret: '4785880f1cf8f357a26f8fa8f2401d7758b31f74',
+        repo: 'Hanyuyu.github.io',
+        owner: 'Hanyuyu',
+        admin: ['Hanyuyu'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
