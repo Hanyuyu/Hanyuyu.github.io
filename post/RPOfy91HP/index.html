@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565657738972">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565690587062">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1565657738972" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565690587062" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -258,10 +258,10 @@ Queue: Front [3, 4, 5, 6, 7, 8, 9] tail
 </tr>
 </tbody>
 </table>
-<p>可以看出上面的操作, 除了<code>getFront()</code>方法的复杂度是O(n)外, 其余方法复杂度均为O(1).<br>
-这也就是我们的优化方向, 能不能把<code>getFront()</code>操作的时间复杂度也降低到O(1)呢?<br>
+<p>可以看出上面的操作, 除了<code>dequeue()</code>方法的复杂度是O(n)外, 其余方法复杂度均为O(1).<br>
+这也就是我们的优化方向, 能不能把<code>dequeue()</code>操作的时间复杂度也降低到O(1)呢?<br>
 答案是肯定的, 至于怎么解决, 我们现在一步步来分析<br>
-首先, <code>getFront()</code>的时间复杂度为O(n)的原因在于, 每次对队首元素进行出队操作时, 要对剩下的所有元素向前移动一位,  这对于我们的动态数组来说是必要的, 因为我们需要<code>size</code>来统计当前数组中的元素个数, size所存的永远是第一个空位置, 那么如果不移动, size的值就会不稳定, 无法准确得到数组元素个数, 即使可以得到,也不好维护.<br>
+首先, <code>dequeue()</code>的时间复杂度为O(n)的原因在于, 每次对队首元素进行出队操作时, 要对剩下的所有元素向前移动一位,  这对于我们的动态数组来说是必要的, 因为我们需要<code>size</code>来统计当前数组中的元素个数, size所存的永远是第一个空位置, 那么如果不移动, size的值就会不稳定, 无法准确得到数组元素个数, 即使可以得到,也不好维护.<br>
 那么对于一个队列来讲, 是否一定要移动后面的元素呢? 大可不必! 从用户角度来想, 队列维护的是出队及入队序列, 我们只需要让元素保持一定的顺序即可, 不必强求对首必须在索引为0的位置上, 这样一来, 我们就得到了一种新的队列 <strong><code>循环队列</code></strong>, 元素不再移动之后, 复杂度即变为O(1).<br>
 光说不练假把式, 我们来通过代码具体实现:<br>
 还是实现之前定义的队列<code>Queue</code>接口, 此处便体会到, 多态设计模式的好处😁</p>
