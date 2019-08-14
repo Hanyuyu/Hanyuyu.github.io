@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-14T04:23:03.693Z</updated>
+    <updated>2019-08-14T09:09:35.104Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -16,7 +16,148 @@
         <link href="http://stevenhy.com/post/9KuaIONib1">
         </link>
         <updated>2019-08-14T04:15:52.000Z</updated>
+        <summary type="html"><![CDATA[<p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
+]]></summary>
         <content type="html"><![CDATA[<p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
+<!-- more -->
+<h2 id="引入递归">引入递归</h2>
+<p>递归调用是有代价的，体现在函数调用+系统栈空间 。<br>
+如果不处理那个最小的事件单元， 那么递归是不会有返回值的，<br>
+递归将一直进行下去，占满系统栈空间，导致程序崩溃<br>
+当然如果递归次数过多， 系统栈也会同样被占满。</p>
+<p>说起递归，它的原理和我们之前讲过的栈的一个应用十分类似，就是子程序调用的过程，深入递归内部，实现过程是一样的，所以会存在系统栈这一说法。<br>
+<img src="http://stevenhy.com/post-images/1565760791060.png" alt=""></p>
+<p>这里提一道简单的题目，给定一个int数组，我们把数组内所有元素的和求出来.<br>
+用递归的思想来解决<br>
+编写的sum函数接受两个参数, arr是要计算的数组变量,l是一个索引标识, 函数的功能是计算arr中[ l,n )的元素和</p>
+<pre><code class="language-java">public static void main(String[] args){
+		public sum(int[] arr, int l) {
+				if(l == arr.length)
+						return 0;
+				return arr[0] + sum(arr, l+1);
+		}
+}
+</code></pre>
+<p>我们来看一下递归函数在执行过程中的原理图<br>
+<img src="http://stevenhy.com/post-images/1565759980401.png" alt=""></p>
+<h2 id="深入分析">深入分析</h2>
+<p>从上面的分析, 我们可以知晓递归的具体实现过程. 至于面对一个递归问题, 如何分析出解决代码, 其实也是有章可循的。🤪<br>
+在这里我总结一个方法：</p>
+<ul>
+<li>找到最小问题单元，实现返回值。</li>
+<li>把比原问题小一级的问题答案当作已知，去解决大问题。</li>
+</ul>
+<p>这样说起来，可能比较抽象，我来分布讲解一下：</p>
+<ol>
+<li>对第一步的理解，我们可以参考上面求和一题，大问题是数组中每个元素求和，就是<strong>和(arr[0]~arr[n])</strong>, 按照递归的思想，这个大问题可以转化为 <strong>arr[0]+和(arr[1]~arr[n])</strong>, 那么现在<strong>和(arr[1]~arr[n])</strong> 就成了我们的新问题，同时这个新问题就是比原问题小一级的问题，换句话说，我们只要解决了这个新问题，那原问题便可迎刃而解。为了方便之后描述，我们暂且把这个新问题称为1号问题。<br>
+那如何解决1号问题呢？同理，我们还需要解决2号问题就是比1号问题还要小一级的问题，<strong>和(arr[2]~arr[n])</strong> ,解决了2号问题，加个arr[1]，就可以解决我们的1号问题，那么也就解决了我们的原问题。你可以看到，我们要解决的问题都是一些同类型的问题。那么相当于2号问题还会有3号问题，4号问题等等等等。如果数组中有n个元素，最后元素的下标是(n-1),我们的第n-1号问题便是<strong>和([])</strong><br>
+这就是最小的问题，这个最小问题是我们可以解决的，一个空数组的和当然是0了<br>
+当计算到第n-1号问题时，函数中依然会调用sum(arr,n)而程序中没有索引为n的元素，意味着已经计算到了最小的问题，所以添加判断，当此时传入的n等于数组长度时，返回最小单元的值。解决了最小单元所有的问题便迎刃而解。这就时原理上我们为什么需要去解决这一问题，返回最小问题单元的解，这便是第一步。</li>
+<li>第一步做好之后，我们只是返回了最小问题单元的值，要完成递归过程，我们还得让程序可以走到最小的问题单元，这便是递归。此时要站在原问题的角度，把1号问题的结果当作已知去解决我们的大问题。<code>return arr[0] + sum(arr, l+1);</code><br>
+便是这个意思。</li>
+</ol>
+<h2 id="扩展练习">扩展练习</h2>
+<p><a href="http://stevenhy.com/post/9KuaIONib/">之前有练习过一道LeetCode链表题，我提到了三种解法</a>，题目是给一个链表的头节点，和一个val值，要求删除链表中值为val的节点，最后返回删除好的链表的头节点。<br>
+这里再贴一下当时的递归解法：</p>
+<pre><code class="language-java">class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null) return null;
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
+</code></pre>
+<p>贴一下这个递归解法的图解操作：<br>
+<img src="http://stevenhy.com/post-images/1565760505529.png" alt=""></p>
+<p><img src="http://stevenhy.com/post-images/1565760687560.png" alt=""><br>
+看完图解，对整个过程应该是很清楚了，如果还不了解，可以再程序中添加输出的方式，帮助理解整个过程。</p>
+<pre><code class="language-java">public class Solution {
+
+    public ListNode removeElements(ListNode head, int val, int depth) {
+
+        String depthString = generateDepthString(depth);
+
+        System.out.print(depthString);
+        System.out.println(&quot;Call: remove &quot; + val + &quot; in &quot; + head);
+
+        if(head == null){
+            System.out.print(depthString);
+            System.out.println(&quot;Return: &quot; + head);
+            return head;
+        }
+
+        ListNode res = removeElements(head.next, val, depth + 1);
+        System.out.print(depthString);
+        System.out.println(&quot;After remove &quot; + val + &quot;: &quot; + res);
+
+        ListNode ret;
+        if(head.val == val)
+            ret = res;
+        else{
+            head.next = res;
+            ret = head;
+        }
+        System.out.print(depthString);
+        System.out.println(&quot;Return: &quot; + ret);
+
+        return ret;
+    }
+
+    private String generateDepthString(int depth){
+        StringBuilder res = new StringBuilder();
+        res.append(&quot;depth &quot;);
+        res.append(depth);
+        res.append(&quot; &quot;);
+        for(int i = 0 ; i &lt; depth ; i ++)
+            res.append(&quot;--&quot;);
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+
+        int[] nums = {1, 2, 6, 3, 4, 5, 6};
+        ListNode head = new ListNode(nums);
+        System.out.println(head);
+
+        ListNode res = (new Solution()).removeElements(head, 6, 0);
+        System.out.println(res);
+    }
+
+}
+</code></pre>
+<p><strong>运行结果如下：</strong></p>
+<pre><code class="language-java">1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6-&gt;NULL
+depth 0 Call: remove 6 in 1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6-&gt;NULL
+depth 1 --Call: remove 6 in 2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6-&gt;NULL
+depth 2 ----Call: remove 6 in 6-&gt;3-&gt;4-&gt;5-&gt;6-&gt;NULL
+depth 3 ------Call: remove 6 in 3-&gt;4-&gt;5-&gt;6-&gt;NULL
+depth 4 --------Call: remove 6 in 4-&gt;5-&gt;6-&gt;NULL
+depth 5 ----------Call: remove 6 in 5-&gt;6-&gt;NULL
+depth 6 ------------Call: remove 6 in 6-&gt;NULL
+depth 7 --------------Call: remove 6 in null
+depth 7 --------------Return: null
+depth 6 ------------After remove 6: null
+depth 6 ------------Return: null
+depth 5 ----------After remove 6: null
+depth 5 ----------Return: 5-&gt;NULL
+depth 4 --------After remove 6: 5-&gt;NULL
+depth 4 --------Return: 4-&gt;5-&gt;NULL
+depth 3 ------After remove 6: 4-&gt;5-&gt;NULL
+depth 3 ------Return: 3-&gt;4-&gt;5-&gt;NULL
+depth 2 ----After remove 6: 3-&gt;4-&gt;5-&gt;NULL
+depth 2 ----Return: 3-&gt;4-&gt;5-&gt;NULL
+depth 1 --After remove 6: 3-&gt;4-&gt;5-&gt;NULL
+depth 1 --Return: 2-&gt;3-&gt;4-&gt;5-&gt;NULL
+depth 0 After remove 6: 2-&gt;3-&gt;4-&gt;5-&gt;NULL
+depth 0 Return: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
+1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
+</code></pre>
+<p>这样就很清晰了，对递归的深度的理解也会比较到位💦</p>
+<hr>
+<br>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/9KuaIONib1/">http://stevenhy.com/post/9KuaIONib1/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
 ]]></content>
     </entry>
     <entry>
