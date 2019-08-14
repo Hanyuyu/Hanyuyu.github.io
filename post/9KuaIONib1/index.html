@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>python ccf题解 201809-1 卖菜 | stevenhy&#39;s pocket</title>
+<title>深入理解递归的运行机制 | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -112,66 +112,23 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">python ccf题解 201809-1 卖菜</h2>
-            <div class="post-date">2019-02-13</div>
+            <h2 class="post-title">深入理解递归的运行机制</h2>
+            <div class="post-date">2019-08-14</div>
             
             <div class="post-content">
-              <p>python ccf题解 201809-1 卖菜</p>
-<!-- more -->
-<p>问题描述</p>
-<p>在一条街上有n个卖菜的商店，按1至n的顺序排成一排，这些商店都卖一种蔬菜。<br><br>
-　　第一天，每个商店都自己定了一个价格。店主们希望自己的菜价和其他商店的一致，第二天，每  一家商店都会根据他自己和相邻商店的价格调整自己的价格。具体的，每家商店都会将第二天的  菜价设置为自己和相邻商店第一天菜价的平均值（用去尾法取整）。<br><br>
-　　注意，编号为1的商店只有一个相邻的商店2，编号为n的商店只有一个相邻的商店n-1，其他编号为i的商店有两个相邻的商店i-1和i+1。<br><br>
-　　给定第一天各个商店的菜价，请计算第二天每个商店的菜价。<br></p>
-<p><em><strong>输入格式</strong></em><br>
-　　输入的第一行包含一个整数n，表示商店的数量。<br>
-　　第二行包含n个整数，依次表示每个商店第一天的菜价。</p>
-<p><em><strong>输出格式</strong></em></p>
-<p>输出一行，包含n个正整数，依次表示每个商店第二天的菜价。</p>
-<p>样例输入</p>
-<p>8<br>
-4 1 3 1 6 5 17 9</p>
-<p>样例输出</p>
-<p>2 2 1 3 4 9 10 13</p>
-<p>数据规模和约定</p>
-<p>对于所有评测用例，2 ≤ n ≤ 1000，第一天每个商店的菜价为不超过10000的正整数。</p>
-<pre><code class="language-python"># 卖菜
-# 输入
-n = int(input())
-a = list(map(int, input().split()))
-b = []
-# 计算第二天菜价
-for i in range(n):
-  if(i == 0):
-      b.append((a[0] + a[1]) // 2)
-  elif(i == n - 1):
-      b.append((a[-2] + a[-1]) // 2)
-  else:
-      b.append((a[i - 1] + a[i] + a[i + 1]) // 3)
-# 输出
-print(&quot; &quot;.join(map(str, b)))
-</code></pre>
-<br>
-<blockquote>
-<p>本文作者: 韩宇<br>
-本文链接: <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/">http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/</a><br>
-版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
-</blockquote>
+              <p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
 
             </div>
             
-              <div class="tag-container">
-                
-                  <a href="http://stevenhy.com/tag/ccf-csp" class="tag">
-                    ccf csp
-                  </a>
-                
-                  <a href="http://stevenhy.com/tag/python" class="tag">
-                    python
-                  </a>
-                
-              </div>
             
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/9KuaIONib">
+                  <h3 class="post-title">
+                    LeetCode203 - 链表移除问题的三种解决方案
+                  </h3>
+                </a>
+              </div>
             
 
             

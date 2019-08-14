@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565756110986">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1565756580807">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1565756110986" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1565756580807" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -132,11 +132,11 @@ class Solution {
     public ListNode removeElements(ListNode head, int val) {
         //首先处理头结点需删除的条件,若头结点被删除, 那么下一个就变成了头节点
 				//所以这里加了while循环用来判断每一个头结点是否需要删除
-				while (head != null &amp;&amp; head.val == val) {
+		while (head != null &amp;&amp; head.val == val) {
             ListNode delNode = head;
             head = head.next;
             delNode.next = null; 
-        }
+      }
 				//执行到这里头结点的删除已经完毕, 此时链表中有两种情况
 				//1.链表有剩余元素
 				//2.链表中全是需要删除的元素, 到此已删除完毕

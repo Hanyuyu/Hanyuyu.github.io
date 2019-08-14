@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-14T04:15:29.855Z</updated>
+    <updated>2019-08-14T04:23:03.693Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>http://stevenhy.com/images/avatar.png</logo>
     <icon>http://stevenhy.com/favicon.ico</icon>
     <rights>All rights reserved 2019, stevenhy&apos;s pocket</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解递归的运行机制]]></title>
+        <id>http://stevenhy.com/post/9KuaIONib1</id>
+        <link href="http://stevenhy.com/post/9KuaIONib1">
+        </link>
+        <updated>2019-08-14T04:15:52.000Z</updated>
+        <content type="html"><![CDATA[<p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LeetCode203 - 链表移除问题的三种解决方案]]></title>
         <id>http://stevenhy.com/post/9KuaIONib</id>
@@ -34,11 +43,11 @@ class Solution {
     public ListNode removeElements(ListNode head, int val) {
         //首先处理头结点需删除的条件,若头结点被删除, 那么下一个就变成了头节点
 				//所以这里加了while循环用来判断每一个头结点是否需要删除
-				while (head != null &amp;&amp; head.val == val) {
+		while (head != null &amp;&amp; head.val == val) {
             ListNode delNode = head;
             head = head.next;
             delNode.next = null; 
-        }
+      }
 				//执行到这里头结点的删除已经完毕, 此时链表中有两种情况
 				//1.链表有剩余元素
 				//2.链表中全是需要删除的元素, 到此已删除完毕
