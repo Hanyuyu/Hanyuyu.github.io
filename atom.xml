@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-13T12:50:18.003Z</updated>
+    <updated>2019-08-14T04:15:29.855Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -10,6 +10,168 @@
     <logo>http://stevenhy.com/images/avatar.png</logo>
     <icon>http://stevenhy.com/favicon.ico</icon>
     <rights>All rights reserved 2019, stevenhy&apos;s pocket</rights>
+    <entry>
+        <title type="html"><![CDATA[LeetCode203 - 链表移除问题的三种解决方案]]></title>
+        <id>http://stevenhy.com/post/9KuaIONib</id>
+        <link href="http://stevenhy.com/post/9KuaIONib">
+        </link>
+        <updated>2019-08-14T01:18:53.000Z</updated>
+        <summary type="html"><![CDATA[<p>LeetCode中的203题, 链表移除的三种解决方案, 借此巩固链表知识</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>LeetCode中的203题, 链表移除的三种解决方案, 借此巩固链表知识</p>
+<!-- more -->
+<h2 id="解决方案1">解决方案1</h2>
+<p>1号方案理解起来相当容易, 与之前介绍的删除节点的方法原理一致, 需要找到每个节点的前驱节点, 由于头节点没有前驱节点所以需要另行处理, 具体看解法中的注释内容.</p>
+<pre><code class="language-java">/*
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        //首先处理头结点需删除的条件,若头结点被删除, 那么下一个就变成了头节点
+				//所以这里加了while循环用来判断每一个头结点是否需要删除
+				while (head != null &amp;&amp; head.val == val) {
+            ListNode delNode = head;
+            head = head.next;
+            delNode.next = null; 
+        }
+				//执行到这里头结点的删除已经完毕, 此时链表中有两种情况
+				//1.链表有剩余元素
+				//2.链表中全是需要删除的元素, 到此已删除完毕
+				//所以需要判断, 分情况对待
+        if(head == null)
+            return null;
+        //进入第一种情况的处理
+				ListNode prev = head;
+        while (prev.next != null) {
+            if (prev.next.val == val) {
+                ListNode delNode = prev.next;
+                prev.next = delNode.next;
+                delNode.next = null;
+            }
+            else
+                prev = prev.next;
+        }
+        return head;
+    }
+}
+</code></pre>
+<p>提交结果:</p>
+<pre><code class="language-java">√ Accepted
+  √ 65/65 cases passed (2 ms)
+  √ Your runtime beats 92.77 % of java submissions
+  √ Your memory usage beats 66.77 % of java submissions (43.5 MB)
+</code></pre>
+<p>对于算法而言, 我们本身其实不需要太多顾及loietory object的问题,因为所有的内存在提交判断后都会被销毁的, 因此我们换掉几句</p>
+<pre><code class="language-java">class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        while(head != null &amp;&amp; head.val == val){
+            head = head.next;
+    }
+        if(head == null)
+            return head;
+        
+        ListNode prev = head;
+        while(prev.next != null){
+            if(prev.next.val == val)
+                prev.next = prev.next.next;
+            else
+                prev = prev.next;
+        }
+        return head;
+    }
+}
+</code></pre>
+<p>提交后结果如下:</p>
+<pre><code class="language-java">√ Accepted
+  √ 65/65 cases passed (2 ms)
+  √ Your runtime beats 92.77 % of java submissions
+  √ Your memory usage beats 67.41 % of java submissions (43.3 MB)
+</code></pre>
+<h2 id="解决方案2">解决方案2</h2>
+<p>就删除操作来看, 如果每个节点都有它的头结点 ,那么就非常好办了, 所以我们同样可以为头节点添加一个虚拟头结点来作为它的前驱, 这样就不需要为头结点设置独立的操作语句了.</p>
+<pre><code class="language-java">class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        
+        ListNode dummyHead = new ListNode(-1); //这里的值没有任何意义，因为不会被访问到
+        dummyHead.next = head;
+
+        ListNode prev = dummyHead;
+        while(prev.next != null){
+            if(prev.next.val == val)
+                prev.next = prev.next.next;
+            else
+                prev = prev.next;
+        }
+        
+        return dummyHead.next;
+    }
+}
+</code></pre>
+<p>提交结果如下:</p>
+<pre><code class="language-java">√ Accepted
+  √ 65/65 cases passed (2 ms)
+  √ Your runtime beats 92.77 % of java submissions
+  √ Your memory usage beats 60.74 % of java submissions (43.9 MB)
+</code></pre>
+<p>👌看来这样也是可以的, 尤其和之前的解决方案相比, 代码量少了不少, 看起来更轻便.</p>
+<h2 id="解决方案3">解决方案3</h2>
+<p>之所以有第三种解决方案是因为链表有着天然的递归特性, 所以我们可以借此特性利用递归的方式来解决本题.具体思路如下图<br>
+<img src="http://stevenhy.com/post-images/1565753207243.png" alt=""></p>
+<pre><code class="language-java">class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null)
+            return null;
+        
+        ListNode res = removeElements(head.next, val);
+        if(head.val == val)
+            return res;
+        else{
+            head.next = res;
+            return head;
+        }
+    }
+}
+</code></pre>
+<p>提交结果如下</p>
+<pre><code class="language-java">√ Accepted
+  √ 65/65 cases passed (2 ms)
+  √ Your runtime beats 92.77 % of java submissions
+  √ Your memory usage beats 58.13 % of java submissions (44 MB)
+</code></pre>
+<p>这其中的语句还可以优化</p>
+<pre><code class="language-java">class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null)
+            return null;
+        
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
+    }
+}
+</code></pre>
+<p>提交结果如下:</p>
+<pre><code class="language-java">√ Accepted
+  √ 65/65 cases passed (2 ms)
+  √ Your runtime beats 92.77 % of java submissions
+  √ Your memory usage beats 67.23 % of java submissions (43.4 MB)
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>以上就是针对于LeetCode 203 问题的三种解决方案, 对于第三种解决方案, 我会在另一篇博文<a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a><br>
+详细分析, 感谢阅读!</p>
+<hr>
+<br>
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/9KuaIONib/">http://stevenhy.com/post/9KuaIONib/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构回顾 - 链表实现及应用]]></title>
         <id>http://stevenhy.com/post/FiTjgJh8i</id>
@@ -21,7 +183,7 @@
         <content type="html"><![CDATA[<p>之前我们自己编写了动态数组, 并以此实现了栈和队列,但是我们所谓的动态数组底层依然是依托于静态数组, 称其为动态是因为可以适时对容量做出控制.  今天来回顾一个非常重要的数据结构-链表. 相较于动态数组, 链表可谓是真正意义上的动态结构.</p>
 <!-- more -->
 <h2 id="1linkedlist类的编写">1.LinkedList类的编写</h2>
-<p>相较于静态数组来说, 链表最大的优势在于实现了真正的动态, 但是丧失了根据索引随机访问的能力. 但是我们学习链表的目的不仅绝限于此, 事实上链表是一种最简单的动态数据结构, 掌握好链表会为之后的更难的数据结构打好基础, 同时也有利于更深入的理解引用及递归的知识.</p>
+<p>相较于静态数组来说, 链表最大的优势在于实现了真正的动态, 但是丧失了根据索引随机访问的能力. 但是我们学习链表的目的绝不仅限于此, 事实上链表是一种最简单的动态数据结构, 掌握好链表会为之后的更难的数据结构打好基础, 同时也有利于更深入的理解引用及递归的知识.</p>
 <p>废话不多说, 开始写代码</p>
 <pre><code class="language-java">public class LinkedList&lt;E&gt; {
 	private class Node{
@@ -1849,9 +2011,11 @@ for i in range(n):
 print(&quot; &quot;.join(map(str, b)))
 </code></pre>
 <br>
-> 本文作者: 韩宇  
-本文链接: <http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/>
-版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处
+<blockquote>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/">http://stevenhy.com/post/2019-2-28-ccf-csp-maicai/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+</blockquote>
 ]]></content>
     </entry>
 </feed>
