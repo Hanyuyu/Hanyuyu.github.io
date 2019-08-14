@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-14T10:12:52.722Z</updated>
+    <updated>2019-08-14T10:24:58.220Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -151,6 +151,14 @@ depth 0 Return: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
 </code></pre>
 <p>这样就很清晰了，对递归的深度的理解也会比较到位💦</p>
+<hr>
+<br>
+<p><strong>推荐阅读</strong></p>
+<ul>
+<li><a href="http://stevenhy.com/post/FiTjgJh8i">数据结构回顾 - 链表实现及应用</a></li>
+<li><a href="http://stevenhy.com/post/9KuaIONib">LeetCode203 - 链表移除问题的三种解决方案</a><br>
+<br></li>
+</ul>
 <hr>
 <br>
 <blockquote>
@@ -313,6 +321,14 @@ class Solution {
 <h2 id="总结">总结</h2>
 <p>以上就是针对于LeetCode 203 问题的三种解决方案, 对于第三种解决方案, 我会在另一篇博文<a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a><br>
 详细分析, 感谢阅读!</p>
+<hr>
+<br>
+<p><strong>推荐阅读</strong></p>
+<ul>
+<li><a href="http://stevenhy.com/post/9KuaIONib1">深入理解递归的运行机制</a></li>
+<li><a href="http://stevenhy.com/post/FiTjgJh8i">数据结构回顾 - 链表实现及应用</a><br>
+<br></li>
+</ul>
 <hr>
 <br>
 <blockquote>
@@ -1003,9 +1019,13 @@ LinkedQueue, time: 0.008158352 s
 <hr>
 <br>  
 <p><strong>推荐阅读</strong><br>
+<a href="http://stevenhy.com/post/9KuaIONib">LeetCode203 - 链表移除问题的三种解决方案</a><br>
+<a href="http://stevenhy.com/post/9KuaIONib1">深入理解递归的运行机制</a><br>
 <a href="http://stevenhy.com/post/sjjghg-zddcsx/">数据结构回顾-栈的底层实现</a><br>
 <a href="http://stevenhy.com/post/RPOfy91HP/">数据结构回顾-队列的实现与优化</a><br>
 <br></p>
+<hr>
+<br>
 <blockquote>
 <p>本文作者: 韩宇<br>
 本文链接: <a href="http://stevenhy.com/post/FiTjgJh8i/">http://stevenhy.com/post/FiTjgJh8i/</a><br>
@@ -1355,6 +1375,13 @@ front [3, 4, 5, 6, 7, 8, 9] tail
 </tbody>
 </table>
 <p>至此优化完成, 其实在上面实现循环队列的时候, 不用size成员变量也可实现所有功能, 大小则通过front和tail两个变量来计算, 需要考虑的方面还挺多, 姑且当做一个作业去做,锻炼能力, 等实现了在贴出来与各位交流!</p>
+<hr>
+<br>
+<p><strong>推荐阅读</strong><br>
+<a href="http://stevenhy.com/post/FiTjgJh8i">数据结构回顾 - 链表实现及应用</a><br>
+<a href="http://stevenhy.com/post/sjjghg-zddcsx">数据结构回顾 - 栈的底层实现</a><br>
+<br></p>
+<hr>
 <br>
 <blockquote>
 <p>本文作者: 韩宇<br>
