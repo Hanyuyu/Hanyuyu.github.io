@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-14T10:24:58.220Z</updated>
+    <updated>2019-08-15T13:09:40.839Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -64,6 +64,8 @@
         if(head == null) return null;
         head.next = removeElements(head.next, val);
         return head.val == val ? head.next : head;
+		}
+}
 </code></pre>
 <p>贴一下这个递归解法的图解操作：<br>
 <img src="http://stevenhy.com/post-images/1565760505529.png" alt=""></p>
@@ -1801,6 +1803,111 @@ public class Array&lt;E&gt; {
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Java子类与继承相关知识点]]></title>
+        <id>http://stevenhy.com/post/2019-3-22-java-class-and-extends</id>
+        <link href="http://stevenhy.com/post/2019-3-22-java-class-and-extends">
+        </link>
+        <updated>2019-03-22T12:06:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
+<!-- more -->
+<h2 id="1子类与父类">1.子类与父类</h2>
+<p>子类是由继承产生的，由关键词<code>extends</code>实现，例如当A类继承B类时，A类就是子类<br>
+B类是父类。子类可以继承父类中不是<code>Private</code>的属性和方法作为自己的方法。<br>
+若子类与父类不在同一包内则只能继承<code>public</code>和<code>protected</code>修饰的变量和方法。</p>
+<h2 id="2成员变量的隐藏及方法的重写">2.成员变量的隐藏及方法的重写</h2>
+<p>当子类新定义的成员变量与父类存在同名时，从父类那里继承来的成员变量就会被隐藏，<br>
+子类不可直接调用，但可以通过从父类继承的方法进行调用。<br>
+同时子类也可以重写从父类继承来的方法，从而实现想要的功能，但是需要注意的是，<br>
+方法的名字，参数个数，参数类型，必须和父类的完全相同，不一样的只能是方法体。</p>
+<h2 id="3super关键字">3.super关键字</h2>
+<p>上面谈到，子类可以隐藏父类的成员变量及方法，那么如何调用这些被隐藏的变量及方法呢<br>
+用<code>super</code>！当这些变量或方法被隐藏后就归super所有，例如<code>super.x</code> , <code>super.play()</code> ,<br>
+分别调用了被子类隐藏的变量x和方法play。<br>
+特别注意，当我们构造一个子类对象时，程序总会先构造该子类的父类对象，记住！<br>
+<strong>子类不会继承父类的构造方法</strong> 也就是说，如果子类的构造方法没有明显的指出<br>
+要使用父类的哪一个构造方法，子类会默认调用父类不带参数的构造方法。因此，子类在<br>
+其构造方法中需要<code>super();</code>来调用父类的构造方法。(<s>没写也默认带</s>)<br>
+<em><strong>例如仔细领悟如下代码中<code>super</code>的用法</strong></em></p>
+<pre><code class="language-java">class Vehicle {
+    int a;//轮子数
+    double b;//自身重量
+    Vehicle(int a, double b) {
+        this.a=a;
+        this.b=b;
+    }
+    void show() {
+        System.out.println(&quot;汽车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+    }
+}
+class Car extends Vehicle {
+    int c;//载客属性
+    Car(int a, double b, int c) {
+        super(a, b);//重点看这里的super！！！
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    void show() {
+        System.out.println(&quot;小轿车:&quot;);
+        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
+        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
+        System.out.println(&quot;额定乘客数:&quot;+c+&quot;人&quot;);
+    }
+}
+</code></pre>
+<h2 id="4final关键字">4.final关键字</h2>
+<p><code>final</code>关键字可以修饰类，成员变量和方法中的局部变量。<br>
+被<code>final</code>修饰的类不能被继承，修饰的方法不能被重写，修饰的变量成了常量(声明时必须<br>
+指定常量值)。</p>
+<h2 id="5对象的上转型对象">5.对象的上转型对象</h2>
+<pre><code class="language-java">public class Animal {
+  
+  public void eat(){
+    System.out.println(&quot;animal eatting...&quot;);
+  }
+}
+class Bird extends Animal{
+  
+  public void eat(){
+    System.out.println(&quot;bird eatting...&quot;);
+  }
+  
+  public void fly(){
+    
+    System.out.println(&quot;bird flying...&quot;);
+  }
+}
+class Main{
+  
+  public static void main(String[] args) {
+    
+    Animal b=new Bird(); //向上转型
+    b.eat(); 
+    //! error: b.fly(); b虽指向子类对象，但此时丢失fly()方法
+    dosleep(new Male());
+    dosleep(new Female());
+  }
+  
+  public static void dosleep(Human h) {
+    h.sleep();
+  }
+}
+</code></pre>
+<p>◆上转型对象可以代替子类对象去调用子类重写的实例方法。如果子类重写的方法是实例方法，那么上转型对象调用重写的方法时，就是通知对应的子类对象去调用这些方法。因此，如果子类重写了父类的某个实例方法后，子类对象的上转型对象调用这个方法时，一定是调用了这个重写的方法。</p>
+<p>◆上转型对象可以调用子类继承的成员变量和隐藏的成员变量。<br>
+<a href="https://postimg.cc/1nQJ8wfp"><img src="https://i.postimg.cc/hjJw30n3/IMG-20190322-203800.jpg" alt="IMG-20190322-203800.jpg"></a><br>
+<br><br>
+<a href="https://postimg.cc/zbFpKvg4"><img src="https://i.postimg.cc/76pcvTYP/IMG-20190322-203810.jpg" alt="IMG-20190322-203810.jpg"></a></p>
+<br>
+> 本文作者: 韩宇  
+本文链接: <http://stevenhy.com/post/2019-3-22-java-class-and-extends/>
+版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Java abstract类与接口]]></title>
         <id>http://stevenhy.com/post/2019-3-22-java-abstract-and-interface</id>
         <link href="http://stevenhy.com/post/2019-3-22-java-abstract-and-interface">
@@ -2038,111 +2145,6 @@ print(score)
 版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
 </blockquote>
 ]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Java子类与继承相关知识点]]></title>
-        <id>http://stevenhy.com/post/2019-3-22-java-class-and-extends</id>
-        <link href="http://stevenhy.com/post/2019-3-22-java-class-and-extends">
-        </link>
-        <updated>2019-02-21T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Java子类与继承相关知识点</p>
-<!-- more -->
-<h2 id="1子类与父类">1.子类与父类</h2>
-<p>子类是由继承产生的，由关键词<code>extends</code>实现，例如当A类继承B类时，A类就是子类<br>
-B类是父类。子类可以继承父类中不是<code>Private</code>的属性和方法作为自己的方法。<br>
-若子类与父类不在同一包内则只能继承<code>public</code>和<code>protected</code>修饰的变量和方法。</p>
-<h2 id="2成员变量的隐藏及方法的重写">2.成员变量的隐藏及方法的重写</h2>
-<p>当子类新定义的成员变量与父类存在同名时，从父类那里继承来的成员变量就会被隐藏，<br>
-子类不可直接调用，但可以通过从父类继承的方法进行调用。<br>
-同时子类也可以重写从父类继承来的方法，从而实现想要的功能，但是需要注意的是，<br>
-方法的名字，参数个数，参数类型，必须和父类的完全相同，不一样的只能是方法体。</p>
-<h2 id="3super关键字">3.super关键字</h2>
-<p>上面谈到，子类可以隐藏父类的成员变量及方法，那么如何调用这些被隐藏的变量及方法呢<br>
-用<code>super</code>！当这些变量或方法被隐藏后就归super所有，例如<code>super.x</code> , <code>super.play()</code> ,<br>
-分别调用了被子类隐藏的变量x和方法play。<br>
-特别注意，当我们构造一个子类对象时，程序总会先构造该子类的父类对象，记住！<br>
-<strong>子类不会继承父类的构造方法</strong> 也就是说，如果子类的构造方法没有明显的指出<br>
-要使用父类的哪一个构造方法，子类会默认调用父类不带参数的构造方法。因此，子类在<br>
-其构造方法中需要<code>super();</code>来调用父类的构造方法。(<s>没写也默认带</s>)<br>
-<em><strong>例如仔细领悟如下代码中<code>super</code>的用法</strong></em></p>
-<pre><code class="language-java">class Vehicle {
-    int a;//轮子数
-    double b;//自身重量
-    Vehicle(int a, double b) {
-        this.a=a;
-        this.b=b;
-    }
-    void show() {
-        System.out.println(&quot;汽车:&quot;);
-        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
-        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
-    }
-}
-class Car extends Vehicle {
-    int c;//载客属性
-    Car(int a, double b, int c) {
-        super(a, b);//重点看这里的super！！！
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-    void show() {
-        System.out.println(&quot;小轿车:&quot;);
-        System.out.println(&quot;轮子数:&quot;+a+&quot;个&quot;);
-        System.out.printf(&quot;自身重量:%.1f吨\n&quot;,b);
-        System.out.println(&quot;额定乘客数:&quot;+c+&quot;人&quot;);
-    }
-}
-</code></pre>
-<h2 id="4final关键字">4.final关键字</h2>
-<p><code>final</code>关键字可以修饰类，成员变量和方法中的局部变量。<br>
-被<code>final</code>修饰的类不能被继承，修饰的方法不能被重写，修饰的变量成了常量(声明时必须<br>
-指定常量值)。</p>
-<h2 id="5对象的上转型对象">5.对象的上转型对象</h2>
-<pre><code class="language-java">public class Animal {
-  
-  public void eat(){
-    System.out.println(&quot;animal eatting...&quot;);
-  }
-}
-class Bird extends Animal{
-  
-  public void eat(){
-    System.out.println(&quot;bird eatting...&quot;);
-  }
-  
-  public void fly(){
-    
-    System.out.println(&quot;bird flying...&quot;);
-  }
-}
-class Main{
-  
-  public static void main(String[] args) {
-    
-    Animal b=new Bird(); //向上转型
-    b.eat(); 
-    //! error: b.fly(); b虽指向子类对象，但此时丢失fly()方法
-    dosleep(new Male());
-    dosleep(new Female());
-  }
-  
-  public static void dosleep(Human h) {
-    h.sleep();
-  }
-}
-</code></pre>
-<p>◆上转型对象可以代替子类对象去调用子类重写的实例方法。如果子类重写的方法是实例方法，那么上转型对象调用重写的方法时，就是通知对应的子类对象去调用这些方法。因此，如果子类重写了父类的某个实例方法后，子类对象的上转型对象调用这个方法时，一定是调用了这个重写的方法。</p>
-<p>◆上转型对象可以调用子类继承的成员变量和隐藏的成员变量。<br>
-<a href="https://postimg.cc/1nQJ8wfp"><img src="https://i.postimg.cc/hjJw30n3/IMG-20190322-203800.jpg" alt="IMG-20190322-203800.jpg"></a><br>
-<br><br>
-<a href="https://postimg.cc/zbFpKvg4"><img src="https://i.postimg.cc/76pcvTYP/IMG-20190322-203810.jpg" alt="IMG-20190322-203810.jpg"></a></p>
-<br>
-> 本文作者: 韩宇  
-本文链接: <http://stevenhy.com/post/2019-3-22-java-class-and-extends/>
-版权声明: 本博客所有文章除特别声明外, 均采用[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议, 转载请注明出处]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[python ccf题解 201809-1 卖菜]]></title>
