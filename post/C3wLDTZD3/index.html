@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1566136531883">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1566137646771">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1566136531883" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1566137646771" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -130,7 +130,7 @@
 8、结点的层次：从根节点到树中某结点所经路径上的分支树称为该结点的层次，根节点的层次规定为1，其余结点的层次等于其父亲结点的层次+1<br>
 9、树的深度：树中结点的最大层次数</p>
 <blockquote>
-<p>参考原文链接：https://blog.csdn.net/weixin_39723544/article/details/83279605</p>
+<p>参考原文链接：<a href="https://blog.csdn.net/weixin_39723544/article/details/83279605">https://blog.csdn.net/weixin_39723544/article/details/83279605</a></p>
 </blockquote>
 <p><strong>二叉树</strong><br>
 其每一个结点不能多余两个子结点。是一种动态的数据结构。查找的平均复杂度是O(logN)，当然在最坏的情况下，就是一个类似链表的结构。<br>
@@ -211,8 +211,8 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Coding Now</strong><br>
-1.开始构建BST类的成员变量即构造方法</p>
+<p><strong>Coding Now</strong></p>
+<h3 id="1开始构建bst类的成员变量即构造方法">1.开始构建BST类的成员变量即构造方法</h3>
 <pre><code class="language-java">public class BST&lt;E extends Comparable&lt;E&gt;&gt; {
 	private class Node{
 		public E e;
@@ -235,7 +235,7 @@
 	}
 }
 </code></pre>
-<p>2.添加size和isEmpty方法</p>
+<h3 id="2添加size和isempty方法">2.添加size和isEmpty方法</h3>
 <pre><code class="language-java">  //添加方法
 	//1.size方法,返回树中元素个数
 	public int size() {
@@ -247,7 +247,7 @@
 		return size==0;
 	}
 </code></pre>
-<p>3.编写add方法, 向树中添加元素e,要求添加后的树仍满足二分搜索树的一切条件</p>
+<h3 id="3编写add方法-向树中添加元素e要求添加后的树仍满足二分搜索树的一切条件">3.编写add方法, 向树中添加元素e,要求添加后的树仍满足二分搜索树的一切条件</h3>
 <pre><code class="language-java">	public void add(E e) {
    	if(root == null) {
    		root = new Node(e);
@@ -306,7 +306,7 @@
 		return node; // 此时的node已经变成处理完一切事情的node
 	}
 </code></pre>
-<p>4.contains方法递归实现</p>
+<h3 id="4contains方法递归实现">4.contains方法递归实现</h3>
 <pre><code class="language-java">public boolean contains(E e) {
 		return contains(root, e);
 	}
@@ -325,7 +325,7 @@
 			return contains(node.right, e);
 	}
 </code></pre>
-<p>5.前中后序遍历的递归实现</p>
+<h3 id="5前中后序遍历的递归实现">5.前中后序遍历的递归实现</h3>
 <pre><code class="language-java">	public void preOrder() {
 		preOrder(root);
 	}
@@ -361,8 +361,8 @@
 		System.out.println(node.e);
 	}
 </code></pre>
-<p>6.前序遍历的非递归实现<br>
-二叉树遍历的非递归实现要比递归实现复杂, 道理也很简单,交给下级去办事总比自己办事要容易的多. 如何实现非递归的前序遍历呢? 前序遍历的原理是对于每一个结点, 按照父-左-右的顺序去遍历, 这个顺序是固定的所以我们可以借助队列来完成.<br>
+<h3 id="6前序遍历的非递归实现">6.前序遍历的非递归实现</h3>
+<p>二叉树遍历的非递归实现要比递归实现复杂, 道理也很简单,交给下级去办事总比自己办事要容易的多. 如何实现非递归的前序遍历呢? 前序遍历的原理是对于每一个结点, 按照父-左-右的顺序去遍历, 这个顺序是固定的所以我们可以借助队列来完成.<br>
 先让父节点入栈, 然后出栈处理父节点, 让其右结点和左结点相继进栈(因为先处理左结点所以先让右结点进栈)处理完父结点后下一个元素出栈即左结点出栈, 开始处理左结点, 让左结点的右结点和左结点进栈, 循环往复, 知道无再入栈元素且栈为空.则遍历完毕. 这时候你可能会想, 是如何想到拿栈来解决问题的呢? 那之前的队列为啥不行呢? 仔细想一下便知, 栈的特点是出栈的顺序与进栈顺序是没有关系的, 而队列, 出队的顺序与进队的顺序是一致的,回想前面的解决方案, 我们先让右结点进栈再让左结点进栈, 在处理左结点的时候, 如果有的化会先让他的子节点进栈, 接着处理的是他的子节点, 完全没有轮到之前的右结点. 但如果是队列的话, 左结点的子节点们, 只能排在后面了. 这就无法达到我们先处理左结点在处理右结点的要求了, 理解了原理之后, 开始写代码..</p>
 <pre><code class="language-java">	//前序遍历的非递归写法
 	public void preOrderNR() {
@@ -379,8 +379,8 @@
 	}
 </code></pre>
 <p>我们也可以借助之前实现的栈来进行, 效果也是一样的</p>
-<p>7.层序遍历, 意思是一层一层的从左往右遍历<br>
-和上面的前序遍历比较一下, 前序遍历是要在处理右结点之前要处理完左结点的所有. 所以使用了栈来控制处理节点的顺序, 而层序遍历强调的是一层处理完再处理下一层, 正好用到我们的队列.在左结点还有子节点的时候, 处理完左结点之后要先把右结点处理了. 正好用到了队列, 还不理解的话看完代码就懂了</p>
+<h3 id="7层序遍历-意思是一层一层的从左往右遍历">7.层序遍历, 意思是一层一层的从左往右遍历</h3>
+<p>和上面的前序遍历比较一下, 前序遍历是要在处理右结点之前要处理完左结点的所有. 所以使用了栈来控制处理节点的顺序, 而层序遍历强调的是一层处理完再处理下一层, 正好用到我们的队列.在左结点还有子节点的时候, 处理完左结点之后要先把右结点处理了. 正好用到了队列, 还不理解的话看完代码就懂了</p>
 <pre><code class="language-java">	//层序遍历,queue需要特定的类型接口,这里我们用LinkedList的接口
 	public void levelOrder() {
 		Queue&lt;Node&gt; q = new LinkedList&lt;Node&gt;();
@@ -396,8 +396,8 @@
 		
 	}
 </code></pre>
-<p>8.查找最值<br>
-先来写找到最小值与最大值并返回(E类型),依然是递归实现, 这没有啥好说的</p>
+<h3 id="8查找最值">8.查找最值</h3>
+<p>先来写找到最小值与最大值并返回(E类型),依然是递归实现, 这没有啥好说的</p>
 <pre><code class="language-java">	//找到最小值
 	public E minnum() {
 		if(size == 0)
@@ -422,8 +422,8 @@
 		return maxnum(node.right);
 	}
 </code></pre>
-<p>9.删除最小值与最大值,并返回该值, 这个返不返回无所谓, 从用户角度来看, 告诉用户你删除了哪个值可能更好一些<br>
-如何删除, 对于最小值来说, 这个结点一定是一个左结点,而且只有两种情况, 一是只有右孩子, 二是没有孩子,是一个叶子结点. 针对叶子结点的情况没什么好说的,删除即可, 对于第一种情况就是用右孩子替换自身即可, 这是你的手下要办的事情, 现在你需要做的是把宰相叫过来, 把命令传达下去. 至于删除最大值嘛.. 道理是一样的只不过替换的是左孩子.</p>
+<h3 id="9删除最小值与最大值并返回该值-这个返不返回无所谓-从用户角度来看-告诉用户你删除了哪个值可能更好一些">9.删除最小值与最大值,并返回该值, 这个返不返回无所谓, 从用户角度来看, 告诉用户你删除了哪个值可能更好一些</h3>
+<p>如何删除, 对于最小值来说, 这个结点一定是一个左结点,而且只有两种情况, 一是只有右孩子, 二是没有孩子,是一个叶子结点. 针对叶子结点的情况没什么好说的,删除即可, 对于第一种情况就是用右孩子替换自身即可, 这是你的手下要办的事情, 现在你需要做的是把宰相叫过来, 把命令传达下去. 至于删除最大值嘛.. 道理是一样的只不过替换的是左孩子.</p>
 <pre><code class="language-java">	//删除最小值
 	public E removemin() {
 		E ret = minnum();  //size=0的情况已经在minnum方法中处理过了
@@ -462,8 +462,8 @@
 		return node;
 	}
 </code></pre>
-<p>10.删除结点值为e的结点<br>
-如何去删除这样一个任意的结点呢?(这里的任意指的是不像最小值一样可以确定它是一个左结点), 这就需要我们分情况讨论了, 如果这个结点只有左孩子, 处理方法与我们在删除最大结点的方法是一样的, 就是让它的左结点去代替它, 如果这个结点只有右孩子, 处理方法则和删除最小结点时是一样的, 即用右孩子来代替它. 如果这个结点没有孩子嘞? 其实这个根本不用单独管他, 因为我们前两种情况任意一个就包含他了. 真正头疼的是左右孩子都有的情况, 处理这种情况需要用到Hibbard Deletion 算法, 即找到比要删除结点大的最小结点来代替它, 这道理很简单, 二分搜索树本就是一个有序序列(中序),就像1 2 3 4 5,删除3, 代替他位置的可以是2也可以是4, 所以也可以是比这个结点小的最大结点来代替. 非常清晰, 这里我们采用后驱代替的方式</p>
+<h3 id="10删除结点值为e的结点">10.删除结点值为e的结点</h3>
+<p>如何去删除这样一个任意的结点呢?(这里的任意指的是不像最小值一样可以确定它是一个左结点), 这就需要我们分情况讨论了, 如果这个结点只有左孩子, 处理方法与我们在删除最大结点的方法是一样的, 就是让它的左结点去代替它, 如果这个结点只有右孩子, 处理方法则和删除最小结点时是一样的, 即用右孩子来代替它. 如果这个结点没有孩子嘞? 其实这个根本不用单独管他, 因为我们前两种情况任意一个就包含他了. 真正头疼的是左右孩子都有的情况, 处理这种情况需要用到Hibbard Deletion 算法, 即找到比要删除结点大的最小结点来代替它, 这道理很简单, 二分搜索树本就是一个有序序列(中序),就像1 2 3 4 5,删除3, 代替他位置的可以是2也可以是4, 所以也可以是比这个结点小的最大结点来代替. 非常清晰, 这里我们采用后驱代替的方式</p>
 <pre><code class="language-java">	//删除值为e的结点,这个就不需要返回值了,用户已经知道他要删什么了
 	public void remove(E e) {
 		root = remove(root, e);
@@ -517,8 +517,8 @@
 洋洋洒洒三千字，今天先歇了😴<br>
 <br></p>
 <hr>
-<p><strong>推荐阅读</strong></p>
-<p><a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
+<p><strong>推荐阅读</strong><br>
+<a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
 <hr>
 <br>
 <blockquote>
