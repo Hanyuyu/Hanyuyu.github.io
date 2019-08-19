@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1566137646771">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1566176058282">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1566137646771" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1566176058282" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,6 +115,9 @@
             <h2 class="post-title">以递归之名 - 重构二分搜索树</h2>
             <div class="post-date">2019-08-18</div>
             
+              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/C3wLDTZD3.png')">
+              </div>
+            
             <div class="post-content">
               <p>回顾二叉树和二分搜索树, 顺便见识一下递归的魅力!💥</p>
 <!-- more -->
@@ -167,7 +170,7 @@
 </tr>
 <tr>
 <td>contains(E e)</td>
-<td>查看树中是否包含e，是返回true(递归实现)</td>
+<td>查看树中是否包含e，包含返回true(递归实现)</td>
 </tr>
 <tr>
 <td>preOrder()</td>
@@ -183,11 +186,11 @@
 </tr>
 <tr>
 <td>preOrderNR</td>
-<td>前序遍历(非递归)</td>
+<td>前序遍历(非递归),借助栈</td>
 </tr>
 <tr>
 <td>levelOrder</td>
-<td>层序遍历</td>
+<td>层序遍历(非递归),借助队列</td>
 </tr>
 <tr>
 <td>minnum()</td>
@@ -207,7 +210,7 @@
 </tr>
 <tr>
 <td>remove(E e)</td>
-<td>删除任意一个结点</td>
+<td>删除任意一个结点(递归实现)</td>
 </tr>
 </tbody>
 </table>
@@ -499,12 +502,12 @@
 			//3.左右结点都有,用Hibbard Deletion算法
 			Node successor = minnum(node.right); //拿到了代替结点即后继
 			successor.right = removemin(node.right); //此时该后继已经拽住了待删除节点的右子树
-			//但是经历过removemin操作size会减一,但此时被remove的那个结点到了上面,整体并没有少
+			//但是经历过removemin操作size会减一,但此时被remove的那个结点(即后继)到了上面,整体并没有少
 			size ++;
 			successor.left = node.left;
-			//此时,后继结点又拽住了待删节点的左子树, 是时候代替它了
+			//此时,后继结点又拽住了待删节点的左子树, 后继是时候代替它了
 			size --;
-			return successor; //替换完毕node变为successor,操作结束.
+			return successor; //替换完毕,node变为successor,操作结束.
 		}
 	}
 </code></pre>
@@ -517,8 +520,8 @@
 洋洋洒洒三千字，今天先歇了😴<br>
 <br></p>
 <hr>
-<p><strong>推荐阅读</strong><br>
-<a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
+<p><strong>推荐阅读</strong></p>
+<p><a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
 <hr>
 <br>
 <blockquote>

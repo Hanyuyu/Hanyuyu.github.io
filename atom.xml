@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://stevenhy.com</id>
     <title>stevenhy&apos;s pocket</title>
-    <updated>2019-08-18T14:14:09.210Z</updated>
+    <updated>2019-08-19T00:54:22.178Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="http://stevenhy.com"/>
     <link rel="self" href="http://stevenhy.com/atom.xml"/>
@@ -69,7 +69,7 @@
 </tr>
 <tr>
 <td>contains(E e)</td>
-<td>查看树中是否包含e，是返回true(递归实现)</td>
+<td>查看树中是否包含e，包含返回true(递归实现)</td>
 </tr>
 <tr>
 <td>preOrder()</td>
@@ -85,11 +85,11 @@
 </tr>
 <tr>
 <td>preOrderNR</td>
-<td>前序遍历(非递归)</td>
+<td>前序遍历(非递归),借助栈</td>
 </tr>
 <tr>
 <td>levelOrder</td>
-<td>层序遍历</td>
+<td>层序遍历(非递归),借助队列</td>
 </tr>
 <tr>
 <td>minnum()</td>
@@ -109,7 +109,7 @@
 </tr>
 <tr>
 <td>remove(E e)</td>
-<td>删除任意一个结点</td>
+<td>删除任意一个结点(递归实现)</td>
 </tr>
 </tbody>
 </table>
@@ -401,12 +401,12 @@
 			//3.左右结点都有,用Hibbard Deletion算法
 			Node successor = minnum(node.right); //拿到了代替结点即后继
 			successor.right = removemin(node.right); //此时该后继已经拽住了待删除节点的右子树
-			//但是经历过removemin操作size会减一,但此时被remove的那个结点到了上面,整体并没有少
+			//但是经历过removemin操作size会减一,但此时被remove的那个结点(即后继)到了上面,整体并没有少
 			size ++;
 			successor.left = node.left;
-			//此时,后继结点又拽住了待删节点的左子树, 是时候代替它了
+			//此时,后继结点又拽住了待删节点的左子树, 后继是时候代替它了
 			size --;
-			return successor; //替换完毕node变为successor,操作结束.
+			return successor; //替换完毕,node变为successor,操作结束.
 		}
 	}
 </code></pre>
@@ -419,8 +419,8 @@
 洋洋洒洒三千字，今天先歇了😴<br>
 <br></p>
 <hr>
-<p><strong>推荐阅读</strong><br>
-<a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
+<p><strong>推荐阅读</strong></p>
+<p><a href="http://stevenhy.com/post/9KuaIONib1/">深入理解递归的运行机制</a></p>
 <hr>
 <br>
 <blockquote>
