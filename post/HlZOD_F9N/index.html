@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | stevenhy&#39;s pocket</title>
+<title>Junit 单元测试 | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -112,37 +112,74 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">关于</h2>
-            <div class="post-date">2019-01-25</div>
+            <h2 class="post-title">Junit 单元测试</h2>
+            <div class="post-date">2019-09-02</div>
             
-              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/about.png')">
+              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/HlZOD_F9N.png')">
               </div>
             
             <div class="post-content">
-              <p><strong>你好！</strong><br>
-<strong>欢迎！</strong><br>
-我是韩宇Steven，一位在读大学生，一名技术与产品爱好者。<br><br>
-stevenhy's pocket 是我所创建的个人博客，我会以写作的方式记录成长<br><br>
-我会在这里分享我的日常思考以及一些代码学习片段。<br><br>
-欢迎关注！<br><br>
-微信公众号：Stevenhy Pocket<br>
-PMCAFF： <a href="https://www.pmcaff.com/user/profile/oDLmO450BO">stevenhy</a><br>
-Github：<a href="https://github.com/Hanyuyu">github</a><br>
-邮箱：<a href="mailto:stevenhanyu@gmail.com">stevenhanyu@gmail.com</a><br><br></p>
+              <p>Junit 单元测试的知识点总结及要点归纳</p>
+<!-- more -->
+<h2 id="单元测试分类">单元测试分类</h2>
+<ol>
+<li>黑盒测试: 不需要写代码,即不关注程序的内部流程 给输入值, 看程序是否能够输出期望的值</li>
+<li>白盒测试: 更加关注程序的内部流程.是我重点要讨论总结的</li>
+</ol>
+<h2 id="白盒测试">白盒测试</h2>
+<ul>
+<li>步骤
+<ol>
+<li>定义一个测试类(被测试的类名+Test), 并且为测试建立一个单独的package放在与被测试类的包同级的目录下</li>
+<li>定义测试方法,这里的方法是可以独立运行的, 不过要记得在方法上面添加@Test注释, 并且导入Junit包才可以独立运行</li>
+<li>一般测试的时候, 如果已经实现知道了会有一个确定的结果, 则可以通过断言操作来判断测试是否通过<strong>Assert.assertEquals(期望值, 运算值)</strong></li>
+<li>如果测试通过,则会显示绿色, 否则结果为红色</li>
+</ol>
+</li>
+</ul>
+<h2 id="相关补充">相关补充</h2>
+<ul>
+<li>@Before
+<ul>
+<li>所有被Before注释的方法会在测试方法前先被执行</li>
+</ul>
+</li>
+<li>@After
+<ul>
+<li>所有被After注释的方法会在测试方法完成之后先被执行</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
 <blockquote>
-<p>生来平庸,也生来骄傲</p>
+<p>本文作者: 韩宇<br>
+本文链接: <a href="http://stevenhy.com/post/HlZOD_F9N/">http://stevenhy.com/post/HlZOD_F9N/</a><br>
+版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
 </blockquote>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="http://stevenhy.com/tag/kexadQ1G3" class="tag">
-                    about
+                  <a href="http://stevenhy.com/tag/xue-xi-bi-ji" class="tag">
+                    学习笔记
+                  </a>
+                
+                  <a href="http://stevenhy.com/tag/java" class="tag">
+                    Java
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/C3wLDTZD3">
+                  <h3 class="post-title">
+                    以递归之名 - 重构二分搜索树
+                  </h3>
+                </a>
+              </div>
             
 
             

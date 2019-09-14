@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java类加载器 | stevenhy&#39;s pocket</title>
+<meta name="description" content="玻璃明亮, 橘子辉煌">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1568462258853">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1568462258853" class="site-logo">
+        <h1 class="site-title">stevenhy&#39;s pocket</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java类加载器</h2>
+            <div class="post-date">2019-09-07</div>
+            
+              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/gaQfofbzk.png')">
+              </div>
+            
+            <div class="post-content">
+              <h3 id="一段java代码从编写完毕到成功执行-这之间到底经历了什么过程">一段java代码从编写完毕到成功执行, 这之间到底经历了什么过程?</h3>
+<h3 id="其中又运行着哪些机制嘞">其中又运行着哪些机制嘞?</h3>
+<!-- more -->
+<p><a href="https://www.cnblogs.com/wang-meng/p/5574071.html">原文链接, 作者写的太棒了!</a></p>
+<p>一、问题</p>
+<p>请新建如下类，并运行它：</p>
+<pre><code class="language-java">1 package java.lang;
+2 
+3 public class Long {
+4     public static void main(String[] args) {
+5         System.out.println(&quot;Hi, i am here&quot;);
+6     }
+7 }
+</code></pre>
+<p><strong>你能猜到它的运行如果吗？ 不错，就是如下这个样子！</strong></p>
+<pre><code class="language-java">错误: 在类 java.lang.Long 中找不到 main 方法, 请将 main 方法定义为:
+public static void main(String[] args)
+否则 JavaFX 应用程序类必须扩展javafx.application.Application
+</code></pre>
+<p>为什么呢，明明我在Long方法类中定义了main方法，为什么说main方法没有定义呢？</p>
+<p>本文将解决以上问题出现的原因。</p>
+<p>二、ClassLoader的作用</p>
+<p>我们都知道java程序写好以后是以.java（文本文件）的文件存在磁盘上，然后，我们通过(bin/javac.exe)编译命令把.java文件编译成.class文件（字节码文件），并存在磁盘上。但是程序要运行，首先一定要把.class文件加载到JVM内存中才能使用的，我们所讲的classLoader,就是负责把磁盘上的.class文件加载到JVM内存中，如下图所示：</p>
+<p><img src="http://stevenhy.com/post-images/1567820465126.png" alt=""></p>
+<p>你可以认为每一个Class对象拥有磁盘上的那个.class字节码内容,每一个class对象都有一个getClassLoader()方法，这个方法会让你知道是谁把我从.class文件加载到内存中变成Class对象的(因为不止一个classloader可以把类加载到内存中)。</p>
+<p>三、ClassLoader层次结构</p>
+<p>请执行如下程序：</p>
+<pre><code class="language-java"> 1 public class Test {
+ 2     public static void main(String[] args) {
+ 3         ClassLoader classLoader = Test.class.getClassLoader();
+ 4         System.out.println(classLoader);
+ 5         
+ 6         ClassLoader classLoader1 = classLoader.getParent();
+ 7         System.out.println(classLoader1);
+ 8         
+ 9         ClassLoader classLoader2 = classLoader1.getParent();
+10         System.out.println(classLoader2); 
+11     }
+12 }
+</code></pre>
+<p>它的输出是：</p>
+<pre><code class="language-java">sun.misc.Launcher$AppClassLoader@2a139a55
+sun.misc.Launcher$ExtClassLoader@7852e922
+null
+</code></pre>
+<p>classLoader2是null值。因为总共就有三个类加载器:</p>
+<p>(1): 根类加载器(null)--**爷爷👴</p>
+<p>它是由本地代码(c/c++)实现的，你根本拿不到他的引用，但是他实际存在，并且加载一些重要的类，它加载(%JAVA_HOME%\jre\lib),如rt.jar(runtime)、i18n.jar等，这些是Java的核心类。</p>
+<p>(2): 扩展类加载器(ExtClassLoader)--**爹👨</p>
+<p>虽说能拿到，但是我们在实践中很少用到它，它主要加载扩展目录下的jar包， %JAVA_HOME%\lib\ext</p>
+<p>(3): 应用类加载器(AppClassLoader)--**你👶</p>
+<p>它主要加载我们应用程序中的类，如Test,或者用到的第三方包,如jdbc驱动包等。</p>
+<p>**这里的父类加载器与类中继承概念要区分，它们在class定义上是没有父子关系的。</p>
+<p>四、Class加载时调用类加载器的顺序</p>
+<p>当一个类要被加载时，有一个启动类加载器和实际类加载器的概念，这个概念请看如下分析</p>
+<p>如上面的Test.class要进行加载时，它将会启动应用类加载器进行加载Test类，但是这个应用类加载器不会真正去加载他，而是会调用看是否有父加载器，结果有，是扩展类加载器，扩展类加载器也不会直接去加载，它看自己是否有父加载器没，结果它还是有的，是根类加载器。</p>
+<p>所以这个时候根类加载器就去加载这个类，可在%JAVA_HOME%\jre\lib下，它找不到com.wangmeng.Test这个类，所以他告诉他的子类加载器，我找不到，你去加载吧，子类扩展类加载器去%JAVA_HOME%\lib\ext去找，也找不着，它告诉它的子类加载器 AppClassLoader，我找不到这个类，你去加载吧，结果AppClassLoader找到了，就加到内存中，并生成Class对象。<br>
+这个时间时候启动类加载器（应用类加载器）和实际类加载器（应用类加载器）是同一个.</p>
+<p>这就是Java中著名的委托加载机制，看如下图：</p>
+<p><img src="http://stevenhy.com/post-images/1567820814324.jpg" alt=""></p>
+<p>我们再来看一下 java.lang.Long的加载，按上面分析，应该是由根类加载器加载得到的，此时启动类加载器是应用类加载器，但实际类加载器是根类加载器。</p>
+<p>所以回到我们最开始那个问题，没有main方法是因为执行的根本不是我们自己写的类，执行的是java核心中的那个Long类，当然没有main方法了。 这样就防止我们应用中写的类覆盖掉java核心类。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="http://stevenhy.com/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/2-tqcbh4i">
+                  <h3 class="post-title">
+                    反射
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '0ea7409b2c225a0a6a5c',
+        clientSecret: '4785880f1cf8f357a26f8fa8f2401d7758b31f74',
+        repo: 'Hanyuyu.github.io',
+        owner: 'Hanyuyu',
+        admin: ['Hanyuyu'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
