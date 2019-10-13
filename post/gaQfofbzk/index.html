@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1568462258853">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1570972990285">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1568462258853" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1570972990285" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -142,7 +142,7 @@ public static void main(String[] args)
 <p>本文将解决以上问题出现的原因。</p>
 <p>二、ClassLoader的作用</p>
 <p>我们都知道java程序写好以后是以.java（文本文件）的文件存在磁盘上，然后，我们通过(bin/javac.exe)编译命令把.java文件编译成.class文件（字节码文件），并存在磁盘上。但是程序要运行，首先一定要把.class文件加载到JVM内存中才能使用的，我们所讲的classLoader,就是负责把磁盘上的.class文件加载到JVM内存中，如下图所示：</p>
-<p><img src="http://stevenhy.com/post-images/1567820465126.png" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="http://stevenhy.com/post-images/1567820465126.png" alt=""></figure>
 <p>你可以认为每一个Class对象拥有磁盘上的那个.class字节码内容,每一个class对象都有一个getClassLoader()方法，这个方法会让你知道是谁把我从.class文件加载到内存中变成Class对象的(因为不止一个classloader可以把类加载到内存中)。</p>
 <p>三、ClassLoader层次结构</p>
 <p>请执行如下程序：</p>
@@ -178,7 +178,7 @@ null
 <p>所以这个时候根类加载器就去加载这个类，可在%JAVA_HOME%\jre\lib下，它找不到com.wangmeng.Test这个类，所以他告诉他的子类加载器，我找不到，你去加载吧，子类扩展类加载器去%JAVA_HOME%\lib\ext去找，也找不着，它告诉它的子类加载器 AppClassLoader，我找不到这个类，你去加载吧，结果AppClassLoader找到了，就加到内存中，并生成Class对象。<br>
 这个时间时候启动类加载器（应用类加载器）和实际类加载器（应用类加载器）是同一个.</p>
 <p>这就是Java中著名的委托加载机制，看如下图：</p>
-<p><img src="http://stevenhy.com/post-images/1567820814324.jpg" alt=""></p>
+<figure data-type="image" tabindex="2"><img src="http://stevenhy.com/post-images/1567820814324.jpg" alt=""></figure>
 <p>我们再来看一下 java.lang.Long的加载，按上面分析，应该是由根类加载器加载得到的，此时启动类加载器是应用类加载器，但实际类加载器是根类加载器。</p>
 <p>所以回到我们最开始那个问题，没有main方法是因为执行的根本不是我们自己写的类，执行的是java核心中的那个Long类，当然没有main方法了。 这样就防止我们应用中写的类覆盖掉java核心类。</p>
 
