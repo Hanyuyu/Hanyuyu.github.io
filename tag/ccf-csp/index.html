@@ -1,15 +1,18 @@
+
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
+    
+<meta charset="utf-8" >
 
 <title>ccf csp | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1570972990285">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1578132994926">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -18,152 +21,180 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-136833409-1');
-</script>
 
 
   </head>
   <body>
     <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1570972990285" class="site-logo">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://stevenhy.com">
+        <img class="avatar" src="http://stevenhy.com/images/avatar.png?v=1578132994926" alt="" width="32px" height="32px">
+      </a>
+      <a href="http://stevenhy.com">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
     </div>
-    <div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
       
         
-          <a href="/" class="site-nav">
+          <a href="/" class="menu purple-link">
             首页
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="/archives" class="menu purple-link">
             归档
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="/tags" class="menu purple-link">
             标签
           </a>
         
       
         
-          <a href="/post/about" class="site-nav">
+          <a href="/post/about" class="menu purple-link">
             关于
           </a>
         
       
     </div>
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      玻璃明亮, 橘子辉煌
-    </div>
-    <div class="site-footer">
-      ⌨代码 | 💡产品 | 📊数据 <br>
-💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
+</transition>
 
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: ccf csp</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
-                  <h2 class="post-title">python ccf题解 201803-1 跳一跳</h2>
-                </a>
-                <div class="post-date">
-                  2019-02-22
-                </div>
-                <div class="post-abstract">
-                  <h2 id="201803-1跳一跳">201803-1跳一跳</h2>
+      <div class="content-container">
 
-                </div>
-              </div>
-              
-                <a class="right" href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
-                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2019-02-22-ccf-csp-tiaoyitiao.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
-                  <h2 class="post-title">python ccf题解 201809-1 卖菜</h2>
-                </a>
-                <div class="post-date">
-                  2019-02-13
-                </div>
-                <div class="post-abstract">
-                  <p>python ccf题解 201809-1 卖菜</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
-                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2019-2-28-ccf-csp-maicai.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-</div>
-
+        <div class="current-tag-container">
+          <h2 class="title">
+            <i class="icon icon-pricetags-outline"></i> ccf csp
+          </h2> 
         </div>
+
+        
+<section class="post-item">
+    <div class="content">
+      <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
+        <h2 class="post-title">python ccf题解 201803-1 跳一跳</h2>
+      </a>
+      <div class="post-abstract">
+        <h2 id="201803-1跳一跳">201803-1跳一跳</h2>
+
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-02-22</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="http://stevenhy.com/tag/ccf-csp">
+                ccf csp
+                
+                  ，
+                
+              </a>
+            
+              <a href="http://stevenhy.com/tag/python">
+                python
+                
+              </a>
+            
+          </span>
+        
       </div>
     </div>
+    
+      <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao">
+        <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2019-02-22-ccf-csp-tiaoyitiao.png')">
+        </div>
+      </a>
+    
+  </section>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<section class="post-item">
+    <div class="content">
+      <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
+        <h2 class="post-title">python ccf题解 201809-1 卖菜</h2>
+      </a>
+      <div class="post-abstract">
+        <p>python ccf题解 201809-1 卖菜</p>
 
-<script type="application/javascript">
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2019-02-13</span>
+        
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="http://stevenhy.com/tag/ccf-csp">
+                ccf csp
+                
+                  ，
+                
+              </a>
+            
+              <a href="http://stevenhy.com/tag/python">
+                python
+                
+              </a>
+            
+          </span>
+        
+      </div>
+    </div>
+    
+      <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
+        <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2019-2-28-ccf-csp-maicai.png')">
+        </div>
+      </a>
+    
+  </section>
 
-AOS.init();
+
+<div class="pagination-container">
+  
+  
+</div>
+
+
+      </div>
+
+      <div class="site-footer">
+  <div class="slogan">玻璃明亮, 橘子辉煌</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
