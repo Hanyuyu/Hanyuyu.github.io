@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>python ccf题解 201803-1 跳一跳 | stevenhy&#39;s pocket</title>
+<title>java 基础知识总结梳理 | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -112,81 +112,62 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">python ccf题解 201803-1 跳一跳</h2>
-            <div class="post-date">2019-02-22</div>
-            
-              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2019-02-22-ccf-csp-tiaoyitiao.png')">
-              </div>
+            <h2 class="post-title">java 基础知识总结梳理</h2>
+            <div class="post-date">2020-01-13</div>
             
             <div class="post-content">
-              <h2 id="201803-1跳一跳">201803-1跳一跳</h2>
-<!-- more -->
-<p>项目 | 相关说明<br>
-试题编号 | 201703-1<br>
-试题名称 | 跳一跳<br>
-时间限制 | 1.0s<br>
-内存限制 | 256m<br>
-问题描述 |近来，跳一跳这款小游戏风靡全国，受到不少玩家的喜爱。<br>
-　　简化后的跳一跳规则如下：玩家每次从当前方块跳到下一个方块，如果没有跳到下一个方块上则游戏结束。<br>
-　　如果跳到了方块上，但没有跳到方块的中心则获得1分；跳到方块中心时，若上一次的得分为1分或这是本局游戏的第一次跳跃则此次得分为2分，否则此次得分比上一次得分多两分（即连续跳到方块中心时，总得分将+2，+4，+6，+8...）。<br>
-　　现在给出一个人跳一跳的全过程，请你求出他本局游戏的得分（按照题目描述的规则）。</p>
-<p>输入格式</p>
-<p>输入包含多个数字，用空格分隔，每个数字都是1，2，0之一，1表示此次跳跃跳到了方块上但是没有跳到中心，2表示此次跳跃跳到了方块上并且跳到了方块中心，0表示此次跳跃没有跳到方块上（此时游戏结束）。</p>
-<p>输出格式</p>
-<p>输出一个整数，为本局游戏的得分（在本题的规则下）。</p>
-<p>样例输入</p>
-<p>1 1 2 2 2 1 1 2 2 0</p>
-<p>样例输出</p>
-<p>22</p>
-<p>数据规模和约定</p>
-<h2 id="对于所有评测用例输入的数字不超过30个保证0正好出现一次且为最后一个数字">对于所有评测用例，输入的数字不超过30个，保证0正好出现一次且为最后一个数字。</h2>
-<h1 id="代码片段">代码片段</h1>
-<pre><code class="language-python"> #跳一跳
-score = 0
-last = 1
-alist = list(map(int,input().split()))
-for a in alist:
-    if a == 0:  # 若a为0则跳出循环
-        break
-    elif a == 1:
-        last = 1
-        score += a
-    else:  # 跳到中心
-        if last == 1:
-            last = 2
-        else:
-            last = last + 2
-        score += last
-print(score)
-</code></pre>
-<h2 id="last的设置是解决本题的核心作用类似于flag可以起到遇1重置遇2累加的作用">last的设置是解决本题的核心，作用类似于flag，可以起到遇1重置，遇2累加的作用</h2>
-<figure data-type="image" tabindex="1"><a href="https://postimg.cc/qz02QzsN"><img src="https://i.postimg.cc/TY5QdbhJ/7178.png" alt="7178.png"></a></figure>
+              <h1 id="1java-基础">1.Java 基础</h1>
+<h2 id="11-重载与重写的区别">1.1 重载与重写的区别:</h2>
+<h3 id="重写"><strong>重写</strong></h3>
+<ol>
+<li>发生在父类与子类之间</li>
+<li>方法名，参数列表，返回类型（除过子类中方法的返回类型是父类中返回类型的子类）必须相同</li>
+<li>访问修饰符的限制一定要大于被重写方法的访问修饰符（public&gt;protected&gt;default&gt;private)</li>
+<li>重写方法一定不能抛出新的检查异常或者比被重写方法申明更加宽泛的检查型异常</li>
+</ol>
+<h3 id="重载"><strong>重载</strong></h3>
+<ol>
+<li>重载是一个类中多态性的表现</li>
+<li>重载要求同名方法的参数列表不同(参数类型，参数个数甚至是参数顺序)</li>
+<li>重载的时候，返回值类型可以相同也可以不相同。无法以返回型别作为重载函数的区分标准</li>
+</ol>
+<h4 id="区别"><strong>区别</strong>:</h4>
 <blockquote>
-<p>本文作者: 韩宇<br>
-本文链接: <a href="http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao/">http://stevenhy.com/post/2019-02-22-ccf-csp-tiaoyitiao/</a><br>
-版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
+<p>方法的重载和重写都是实现多态的方式，区别在于前者实现的是编译时的多态性，而后者实现的是运行时的多态性。重载发生在一个类中，同名的方法如果有不同的参数列表（参数类型不同、参数个数不同或者二者都不同）则视为重载；重写发生在子类与父类之间，重写要求子类被重写方法与父类被重写方法有相同的参数列表，有兼容的返回类型，比父类被重写方法更好访问，不能比父类被重写方法声明更多的异常（里氏代换原则）。重载对返回类型没有特殊的要求，不能根据返回类型进行区分。</p>
 </blockquote>
+<hr>
+<h2 id="12-string-和-stringbuffer-stringbuilder-的区别是什么string-为什么是不可变的">1.2 String 和 StringBuffer、StringBuilder 的区别是什么？String 为什么是不可变的</h2>
+<p><strong>对于这三者的区别, 可以从可变性,线程安全性及性能这三个角度进行理解</strong></p>
+<h4 id="可变性">可变性</h4>
+<p>简单的来说：String 类中使用 ﬁnal 关键字字符数组保存字符串，<code>private final char value[]</code> ，所以 String 对象是不可变的。而StringBuilder 与 StringBuffer 都继承自 AbstractStringBuilder 类，在 AbstractStringBuilder 中也是使用字符数组保存字符串 char[]value 但是没有用 ﬁnal 关键字修饰，所以这两种对象都是可变的。</p>
+<pre><code class="language-java">// AbstractStringBuilder部分源码
+abstract class AbstractStringBuilder implements Appendable, CharSequence {    
+    char[] value;    
+    int count;    
+    AbstractStringBuilder() { }    
+    AbstractStringBuilder(int capacity) {        
+        value = new char[capacity];    }
+</code></pre>
+<h4 id="线程安全性">线程安全性</h4>
+<p>String 中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder 是 StringBuilder 与 StringBuﬀer 的公共父类，定义了一些字符串的基本操作，如 expandCapacity、append、insert、indexOf 等公共 方法。StringBuﬀer 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder 并没有对方法进行加同步锁，所以是非线程安全的.</p>
+<h4 id="性能">性能</h4>
+<p>每次对 String 类型进行改变的时候，都会生成一个新的 String 对象，然后将指针指向新的 String 对象。 StringBuffer 每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。<br>
+<strong>总结</strong></p>
+<ol>
+<li>操作少量的数据 = String</li>
+<li>单线程操作字符串缓冲区下操作大量数据 = StringBuilder</li>
+<li>多线程操作字符串缓冲区下操作大量数据 = StringBuffer</li>
+</ol>
+<hr>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="http://stevenhy.com/tag/ccf-csp" class="tag">
-                    ccf csp
-                  </a>
-                
-                  <a href="http://stevenhy.com/tag/python" class="tag">
-                    python
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="http://stevenhy.com/post/2019-2-28-ccf-csp-maicai">
+                <a href="http://stevenhy.com/post/gaQfofbzk">
                   <h3 class="post-title">
-                    python ccf题解 201809-1 卖菜
+                    Java类加载器
                   </h3>
                 </a>
               </div>

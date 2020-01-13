@@ -1,18 +1,15 @@
-
 <!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
+    <meta charset="utf-8" >
 
 <title>数据结构回顾 - 栈的底层实现 | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1578132994926">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1578923502331">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -27,92 +24,102 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
 
 
   </head>
   <body>
     <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="http://stevenhy.com">
-        <img class="avatar" src="http://stevenhy.com/images/avatar.png?v=1578132994926" alt="" width="32px" height="32px">
-      </a>
-      <a href="http://stevenhy.com">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1578923502331" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
     </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
-  </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
+    <div>
       
         
-          <a href="/" class="menu purple-link">
+          <a href="/" class="site-nav">
             首页
           </a>
         
       
         
-          <a href="/archives" class="menu purple-link">
+          <a href="/archives" class="site-nav">
             归档
           </a>
         
       
         
-          <a href="/tags" class="menu purple-link">
+          <a href="/tags" class="site-nav">
             标签
           </a>
         
       
         
-          <a href="/post/about" class="menu purple-link">
+          <a href="/post/about" class="site-nav">
             关于
           </a>
         
       
     </div>
   </div>
-</transition>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
 
-      <div class="content-container">
-        <div class="post-detail">
-          
-            <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/sjjghg-zddcsx.png')">
-            </div>
-          
-          <h2 class="post-title">数据结构回顾 - 栈的底层实现</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-08-12</span>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">数据结构回顾 - 栈的底层实现</h2>
+            <div class="post-date">2019-08-12</div>
             
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="http://stevenhy.com/tag/zhan">
-                    栈
-                    
-                      ，
-                    
-                  </a>
-                
-                  <a href="http://stevenhy.com/tag/shu-ju-jie-gou">
-                    数据结构
-                    
-                  </a>
-                
-              </span>
+              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/sjjghg-zddcsx.png')">
+              </div>
             
-          </div>
-          <div class="post-content">
-            <p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。<br>
+            <div class="post-content">
+              <p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。<br>
 这次，我们依然自己来实现一个栈！</p>
 <!-- more -->
 <p>栈在学习过程中出现频率挺高， 举两个例子，第一个是撤销操作，就是我们在文本编辑器中常用到的撤销(Undo)操作，原理和栈是一个道理，还有一个是程序调用的系统栈，在对子过程进行调用的时候，会把主函数中子函数的入口地址存入栈中，待子过程调用完毕后，会从该系统栈中取出主函数中的位置，接着执行剩余的命令。</p>
@@ -264,50 +271,50 @@ Stack: [0,1,2,3] top<br>
 版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
 </blockquote>
 
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="http://stevenhy.com/tag/zhan" class="tag">
+                    栈
+                  </a>
+                
+                  <a href="http://stevenhy.com/tag/shu-ju-jie-gou" class="tag">
+                    数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu">
+                  <h3 class="post-title">
+                    数据结构回顾 - 从0实现动态数组
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
+
         </div>
-
-        
-          <div class="next-post">
-            <a class="purple-link" href="http://stevenhy.com/post/shu-ju-jie-gou-hui-gu-cong-0-shi-xian-dong-tai-shu-zu">
-              <h3 class="post-title">
-                下一篇：数据结构回顾 - 从0实现动态数组
-              </h3>
-            </a>
-          </div>
-          
       </div>
-
-      
-        
-          <div id="gitalk-container"></div>
-        
-
-        
-      
-
-      <div class="site-footer">
-  <div class="slogan">玻璃明亮, 橘子辉煌</div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  </div>
-  ⌨代码 | 💡产品 | 📊数据 <br>
-💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
-</div>
-
-
     </div>
-    <script type="application/javascript">
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
 
 hljs.initHighlightingOnLoad()
 
