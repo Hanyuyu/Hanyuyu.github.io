@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1578923887206">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1578924453501">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="http://stevenhy.com">
-        <img src="http://stevenhy.com/images/avatar.png?v=1578923887206" class="site-logo">
+        <img src="http://stevenhy.com/images/avatar.png?v=1578924453501" class="site-logo">
         <h1 class="site-title">stevenhy&#39;s pocket</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,6 +115,9 @@
             <h2 class="post-title">java 基础知识总结梳理</h2>
             <div class="post-date">2020-01-13</div>
             
+              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/T-Q7jaIsy.png')">
+              </div>
+            
             <div class="post-content">
               <p>对java的基础知识做一个梳理</p>
 <!-- more -->
@@ -149,7 +152,9 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {    
     int count;    
     AbstractStringBuilder() { }    
     AbstractStringBuilder(int capacity) {        
-        value = new char[capacity];    }
+        value = new char[capacity];   
+    }
+}
 </code></pre>
 <h4 id="线程安全性">线程安全性</h4>
 <p>String 中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder 是 StringBuilder 与 StringBuﬀer 的公共父类，定义了一些字符串的基本操作，如 expandCapacity、append、insert、indexOf 等公共 方法。StringBuﬀer 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder 并没有对方法进行加同步锁，所以是非线程安全的.</p>
@@ -164,6 +169,14 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {    
 <hr>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="http://stevenhy.com/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
