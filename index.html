@@ -1,717 +1,347 @@
 <!DOCTYPE html>
 <html>
-<head lang="zh">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="telephone=no" name="format-detection"/>
-<meta name="renderer" content="webkit">
-<meta name="description" content="玻璃明亮, 橘子辉煌">
-<meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <head>
+    <meta charset="utf-8" >
 
 <title>stevenhy&#39;s pocket</title>
-<link href="http://stevenhy.com/styles/main.css" type="text/css" rel="stylesheet"/>
-<link rel="stylesheet" href="//cdn.bootcss.com/KaTeX/0.10.2/katex.min.css"/>
-<script src="//cdn.bootcss.com/KaTeX/0.10.2/katex.min.js"></script>
-<script src="//cdn.bootcss.com/KaTeX/0.10.2/contrib/auto-render.min.js"></script>
-<script type="text/javascript" src="http://stevenhy.com/media/scripts/jquery.js"></script>
-<script type="text/javascript" src="http://stevenhy.com/media/scripts/jquery.pjax.min.js"></script>
-<script type="text/javascript" src="http://stevenhy.com/media/scripts/basic.js"></script>
-<script type="text/javascript" src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-<script async type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/lightgallery/1.6.12/js/lightgallery.min.js"></script>
-<script src="https://cdn.bootcss.com/tocbot/4.8.1/tocbot.js"></script>
+<meta name="description" content="玻璃明亮, 橘子辉煌">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="http://stevenhy.com/favicon.ico?v=1579426781648">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="http://stevenhy.com/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136833409-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136833409-1');
+</script>
+
 
   </head>
-
   <body>
-    <div class="header">
-      <div class="logo_title">
-		  
-        <div class="title animated fadeInDown"><img id="img1" alt="logo" style="display:inline-block;" src="http://stevenhy.com/images/avatar.png"/>
-<script>
-var r = 0;
-    window.onload = function(){
-        var current = 0;
-        document.getElementById('img1').onclick = function(){
-            current = (current+90)%360;
-            this.style.transform = 'rotate('+current+'deg)';
-        }
-    };
-</script>
+    <div id="app" class="main">
 
-          <h1 title="stevenhy&#39;s pocket" class="weaklink"><a  href="/">stevenhy&#39;s pocket</a>
-
-          </h1>
-	  
-
-          <div class="navbar weaklink">
-            <div class="normal_nav">
-
-<div class="bitcron_nav_container">
-
-
-  <div class="bitcron_nav">
-    <div class="mixed_site_nav_wrap site_nav_wrap">
-		
-      <ul class="mixed_site_nav site_nav sm sm-base">
-	  
- 
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a>
-  </li>
-  
- 
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a>
-  </li>
-  
- 
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a>
-  </li>
-  
- 
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a>
-  </li>
-  
- 
- <li>
-
-      </ul>
-	  
-
-      <div class="clear clear_nav_inline_end"></div>
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="http://stevenhy.com">
+        <img src="http://stevenhy.com/images/avatar.png?v=1579426781648" class="site-logo">
+        <h1 class="site-title">stevenhy&#39;s pocket</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
     </div>
-
+    <div>
+      
+        
+          <a href="http://stevenhy.com" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
   </div>
-
-
-
-  <div class="clear clear_nav_end"></div>
-
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Hanyuyu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      玻璃明亮, 橘子辉煌
+    </div>
+    <div class="site-footer">
+      ⌨代码 | 💡产品 | 📊数据 <br>
+💬 wechat：Mr15110552330 | <a class="rss" href="http://stevenhy.com/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
 </div>
 
-            </div>
-			
-			<div class="hamberger"><i class="fa fa-bars"></i>
-<i class="fa fa-times"></i>
 
-			</div>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/GSfKPvMWk">
+                  <h2 class="post-title">剑指offer-二维数组中的查找</h2>
+                </a>
+                <div class="post-date">
+                  2020-01-19
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/T-Q7jaIsy">
+                  <h2 class="post-title">java 基础知识总结梳理</h2>
+                </a>
+                <div class="post-date">
+                  2020-01-13
+                </div>
+                <div class="post-abstract">
+                  <p>对java的基础知识做一个梳理</p>
 
-          </div>
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/T-Q7jaIsy">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/T-Q7jaIsy.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/gaQfofbzk">
+                  <h2 class="post-title">Java类加载器</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-07
+                </div>
+                <div class="post-abstract">
+                  <h3 id="一段java代码从编写完毕到成功执行-这之间到底经历了什么过程">一段java代码从编写完毕到成功执行, 这之间到底经历了什么过程?</h3>
+<h3 id="其中又运行着哪些机制嘞">其中又运行着哪些机制嘞?</h3>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/gaQfofbzk">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/gaQfofbzk.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/2-tqcbh4i">
+                  <h2 class="post-title">反射</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-02
+                </div>
+                <div class="post-abstract">
+                  <p>java中反射机制 是框架的灵魂所在, 反射可以将类的各个组成部分封装为其他对象, 这样做的好处有两个, 一是可以在程序的运行过程中操作这些对象, 二是可以解耦, 以提高程序的可扩展性.</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/2-tqcbh4i">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/2-tqcbh4i.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/HlZOD_F9N">
+                  <h2 class="post-title">Junit 单元测试</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-02
+                </div>
+                <div class="post-abstract">
+                  <p>Junit 单元测试的知识点总结及要点归纳</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/HlZOD_F9N">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/HlZOD_F9N.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/C3wLDTZD3">
+                  <h2 class="post-title">以递归之名 - 重构二分搜索树</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-18
+                </div>
+                <div class="post-abstract">
+                  <p>回顾二叉树和二分搜索树, 顺便见识一下递归的魅力!💥</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/C3wLDTZD3">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/C3wLDTZD3.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/9KuaIONib1">
+                  <h2 class="post-title">深入理解递归的运行机制</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-14
+                </div>
+                <div class="post-abstract">
+                  <p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/9KuaIONib1">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/9KuaIONib1.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/9KuaIONib">
+                  <h2 class="post-title">LeetCode203 - 链表移除问题的三种解决方案</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-14
+                </div>
+                <div class="post-abstract">
+                  <p>LeetCode中的203题, 链表移除的三种解决方案, 借此巩固链表知识</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/9KuaIONib">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/9KuaIONib.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/FiTjgJh8i">
+                  <h2 class="post-title">数据结构回顾 - 链表实现及应用</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-13
+                </div>
+                <div class="post-abstract">
+                  <p>之前我们自己编写了动态数组, 并以此实现了栈和队列,但是我们所谓的动态数组底层依然是依托于静态数组, 称其为动态是因为可以适时对容量做出控制.  今天来回顾一个非常重要的数据结构-链表. 相较于动态数组, 链表可谓是真正意义上的动态结构.</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/FiTjgJh8i">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/FiTjgJh8i.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="http://stevenhy.com/post/RPOfy91HP">
+                  <h2 class="post-title">数据结构回顾 - 队列的实现与优化</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-12
+                </div>
+                <div class="post-abstract">
+                  <p>之前我们实现了一个栈，栈是一种先进后出的数据结构(FILO), 那么在数据结构中还有一种先进先出的数据结构(FIFO)与之对应, 即队列, 今天我们一步步实现自己的队列并优化它!</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="http://stevenhy.com/post/RPOfy91HP">
+                  <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/RPOfy91HP.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+    <a href="http://stevenhy.com/page/2/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  
+</div>
 
         </div>
-
       </div>
-
-      <div class="hidden_nav animated fadeInDown">
-
-<div class="bitcron_nav_container">
-
-
-  <div class="bitcron_nav">
-    <div class="mixed_site_nav_wrap site_nav_wrap">
-      <ul class="mixed_site_nav site_nav sm sm-base">
-	
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a>
-
-  </li>
-
-
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a>
-
-  </li>
-
-
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a>
-
-  </li>
-
-
-  <li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a>
-
-  </li>
-
-
-
-
-      </ul>
-
-      <div class="clear clear_nav_inline_end"></div>
     </div>
 
-  </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
+<script type="application/javascript">
 
+AOS.init();
 
-  <div class="clear clear_nav_end"></div>
+hljs.initHighlightingOnLoad()
 
-</div>
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
-      </div>
-
-    </div>
-
-
-    <div class="main" id="pjax-container">
-      <div class="main-inner">
-
-<div class="content">
-
-
-
-
-
-
-  <div class="post_list" >
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/T-Q7jaIsy" >java 基础知识总结梳理</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>对java的基础知识做一个梳理</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/T-Q7jaIsy">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2020-01-13
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/java" class="tag">
-				Java
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		1718
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		7 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/gaQfofbzk" >Java类加载器</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><h3 id="一段java代码从编写完毕到成功执行-这之间到底经历了什么过程">一段java代码从编写完毕到成功执行, 这之间到底经历了什么过程?</h3>
-<h3 id="其中又运行着哪些机制嘞">其中又运行着哪些机制嘞?</h3>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/gaQfofbzk">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-09-07
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/java" class="tag">
-				Java
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		1140
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		5 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/2-tqcbh4i" >反射</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>java中反射机制 是框架的灵魂所在, 反射可以将类的各个组成部分封装为其他对象, 这样做的好处有两个, 一是可以在程序的运行过程中操作这些对象, 二是可以解耦, 以提高程序的可扩展性.</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/2-tqcbh4i">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-09-02
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/java" class="tag">
-				Java
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		909
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		4 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/HlZOD_F9N" >Junit 单元测试</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>Junit 单元测试的知识点总结及要点归纳</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/HlZOD_F9N">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-09-02
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/xue-xi-bi-ji" class="tag">
-				学习笔记
-			</a>
-			
-			<a href="http://stevenhy.com/tag/java" class="tag">
-				Java
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		351
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		2 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/C3wLDTZD3" >以递归之名 - 重构二分搜索树</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>回顾二叉树和二分搜索树, 顺便见识一下递归的魅力!💥</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/C3wLDTZD3">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-18
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/er-fen-sou-suo-shu" class="tag">
-				二分搜索树
-			</a>
-			
-			<a href="http://stevenhy.com/tag/di-gui" class="tag">
-				递归
-			</a>
-			
-			<a href="http://stevenhy.com/tag/shu-ju-jie-gou" class="tag">
-				数据结构
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		3651
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		15 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/9KuaIONib1" >深入理解递归的运行机制</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>🙋‍♂️这一篇主要理一理关于递归的那些事儿, 顺便给之前的LeetCode 203题做个小结.</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/9KuaIONib1">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-14
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/suan-fa" class="tag">
-				算法
-			</a>
-			
-			<a href="http://stevenhy.com/tag/di-gui" class="tag">
-				递归
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		1722
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		8 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/9KuaIONib" >LeetCode203 - 链表移除问题的三种解决方案</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>LeetCode中的203题, 链表移除的三种解决方案, 借此巩固链表知识</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/9KuaIONib">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-14
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/leetcode" class="tag">
-				LeetCode
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		1009
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		5 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/FiTjgJh8i" >数据结构回顾 - 链表实现及应用</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>之前我们自己编写了动态数组, 并以此实现了栈和队列,但是我们所谓的动态数组底层依然是依托于静态数组, 称其为动态是因为可以适时对容量做出控制.  今天来回顾一个非常重要的数据结构-链表. 相较于动态数组, 链表可谓是真正意义上的动态结构.</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/FiTjgJh8i">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-13
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/lian-biao" class="tag">
-				链表
-			</a>
-			
-			<a href="http://stevenhy.com/tag/java" class="tag">
-				Java
-			</a>
-			
-			<a href="http://stevenhy.com/tag/shu-ju-jie-gou" class="tag">
-				数据结构
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		3813
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		18 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/RPOfy91HP" >数据结构回顾 - 队列的实现与优化</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>之前我们实现了一个栈，栈是一种先进后出的数据结构(FILO), 那么在数据结构中还有一种先进先出的数据结构(FIFO)与之对应, 即队列, 今天我们一步步实现自己的队列并优化它!</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/RPOfy91HP">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-12
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/dui-lie" class="tag">
-				队列
-			</a>
-			
-			<a href="http://stevenhy.com/tag/shu-ju-jie-gou" class="tag">
-				数据结构
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		1887
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		9 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-
-	
-<div class="post">
-  <div class="post_title weaklink">
-    <h2><a href="http://stevenhy.com/post/sjjghg-zddcsx" >数据结构回顾 - 栈的底层实现</a>
-    </h2>
-  </div>
-  <div class="post_content markdown"><div class="p_part"><p><p>🙎‍♂️💦之前在博客中, 从0实现了动态数组, 这个数组灵活性相当高, 在容量不够或者容量过大时都会进行<code>resize</code>操作, 且这个动态数组支持泛型, 任何对象都可以成为其元素。<br>
-这次，我们依然自己来实现一个栈！</p>
-</p></div></div>
-  <a class="pure-button" href="http://stevenhy.com/post/sjjghg-zddcsx">Read More >>> </a>
-  <div class="post_footer">
-<div class="info weaklink">
-	<i class="fa fa-calendar">
-	</i>
-	<span class="date_info">
-		2019-08-12
-	</span>
-	<i class="fa fa-bookmark-o">
-	</i>
-	<span class="tags_info weaklink">
-		
-			<a href="http://stevenhy.com/tag/zhan" class="tag">
-				栈
-			</a>
-			
-			<a href="http://stevenhy.com/tag/shu-ju-jie-gou" class="tag">
-				数据结构
-			</a>
-			
-	</span>
-	<i class="fa fa-anchor">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		902
-			字
-	</span>
-	<i class="fa fa-clock-o">
-	</i>
-	<span class="weaklink" style="margin-right:15px;">
-		4 min read
-	</span>
-</div>
-
-  </div>
-
-</div>
-	
-	
-
-<div class="paginator pager pagination" >
-	
-  <div class="paginator_container pagination_container">
-	  
-	    								
-										
-	  
-	  <a href="http://stevenhy.com/page/2/"  class="btn next older-posts older_posts"> Older Posts </a>
-
-
-
-    <div style="clear:both;height:0;"></div>
-
-
-  </div>
-
-</div>
-</div>
-  </div>
-</div>
-
-    </div>
-   <div class="footer">
-<div class="site_footer_wrap"><div class="site_footer">
-
-      <div class="mysocials"><div class="my_socials">
-		   
-			   
-    
-			   
-    
-			   
-    
-			   
-<a href="https://github.com/Hanyuyu" title="github"><i class="fa fa-github"></i></a>
-
-    
-			   
-<a href="mailto:stevenhanyu@gmail.com" title="envelope"><i class="fa fa-envelope"></i></a>
-
-    
-			   
-    
-</div>
-      </div>
-
-      <div class="copyright" id="copyright">
-	  <script>
-		var date=new Date;
-		var year=date.getFullYear(); 
-		document.write("Copyright © "+year+" " + "stevenhy&#39;s pocket. ");
-		</script>
-		Powered by Gridea.
-		<br>
-		本站已稳定运行了
-		<strong><script type="text/javascript">
-		var urodz= new Date("10/28/2018");
-		var now = new Date();
-		var ile = now.getTime() - urodz.getTime();
-		var dni = Math.floor(ile / (1000 * 60 * 60 * 24));
-		document.write(+dni)
-		</script>
-		</strong>天
-		<br>
-		本站总访问量为 <strong><span id="busuanzi_value_site_pv"></span></strong> 次<br>
-	  ⌨代码 | 💡产品 | 📊数据 <br>
-💬 wechat：Mr15110552330
-      </div>
-	  <!--<img src="http://stevenhy.com/media/images/font.svg">-->
-
-    </div>
-
-<script type="text/javascript" src="http://stevenhy.com/media/scripts/darkmode.js"></script>
-<script>
-new Darkmode({label: '🌓',backgroundColor: '#f7f7f7',time: '0.5s'}).showWidget();
-console.clear();
-console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
-</script>
-<script>
-hljs.initHighlightingOnLoad();
 </script>
 
 
-</body>
 
+
+  </body>
 </html>

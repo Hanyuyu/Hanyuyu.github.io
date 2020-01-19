@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Junit 单元测试 | stevenhy&#39;s pocket</title>
+<title>剑指offer-二维数组中的查找 | stevenhy&#39;s pocket</title>
 <meta name="description" content="玻璃明亮, 橘子辉煌">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -112,71 +112,81 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Junit 单元测试</h2>
-            <div class="post-date">2019-09-02</div>
-            
-              <div class="feature-container" style="background-image: url('http://stevenhy.com/post-images/HlZOD_F9N.png')">
-              </div>
+            <h2 class="post-title">剑指offer-二维数组中的查找</h2>
+            <div class="post-date">2020-01-19</div>
             
             <div class="post-content">
-              <p>Junit 单元测试的知识点总结及要点归纳</p>
-<!-- more -->
-<h2 id="单元测试分类">单元测试分类</h2>
+              <h2 id="题目描述">题目描述:</h2>
+<p>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，<br>
+每一列都按照从上到下递增的顺序排序。<br>
+请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。<br>
+Consider the following matrix:<br>
+[<br>
+[1,   4,  7, 11, 15],<br>
+[2,   5,  8, 12, 19],<br>
+[3,   6,  9, 16, 22],<br>
+[10, 13, 14, 17, 24],<br>
+[18, 21, 23, 26, 30]<br>
+]<br>
+Given target = 5, return true.<br>
+Given target = 20, return false.</p>
+<h2 id="解题思路">解题思路</h2>
+<p>对于二维数组中的一个数，小于它的数一定在其左边，大于它的数在其下边或者是右边。<br>
+如何理解这句话呢? 对于本题我们一定是通过遍历求解,通过当前元素与目标元素的大小关系来决定下一步的方向<br>
+那么如何遍历就成了本题的核心</p>
 <ol>
-<li>黑盒测试: 不需要写代码,即不关注程序的内部流程 给输入值, 看程序是否能够输出期望的值</li>
-<li>白盒测试: 更加关注程序的内部流程.是我重点要讨论总结的</li>
+<li>如果我们从左上角第一个元素开始遍历,那就是从小开始遍历,如果目标元素比当前元素大,可能的方向就有右边和下边, 到底选哪边呢? 这就遇到了问题</li>
+<li>如果我们从右下角最后一个元素开始遍历呢? 没错我们遇到了,和情况1一样的问题, 左边和上边的元素都比它小</li>
+<li>从右上角及第一行最后一个数开始遍历, 就会发现容易的多,永远是大的在下边小的在左边, 很好确定遍历的下一个元素位置</li>
+<li>同理从左下角及最后一行的第一个元素开始遍历也有同样的效果, 大的永远在右边,小的永远在上边</li>
 </ol>
-<h2 id="白盒测试">白盒测试</h2>
-<ul>
-<li>步骤
-<ol>
-<li>定义一个测试类(被测试的类名+Test), 并且为测试建立一个单独的package放在与被测试类的包同级的目录下</li>
-<li>定义测试方法,这里的方法是可以独立运行的, 不过要记得在方法上面添加@Test注释, 并且导入Junit包才可以独立运行</li>
-<li>一般测试的时候, 如果已经实现知道了会有一个确定的结果, 则可以通过断言操作来判断测试是否通过<strong>Assert.assertEquals(期望值, 运算值)</strong></li>
-<li>如果测试通过,则会显示绿色, 否则结果为红色</li>
-</ol>
-</li>
-</ul>
-<h2 id="相关补充">相关补充</h2>
-<ul>
-<li>@Before
-<ul>
-<li>所有被Before注释的方法会在测试方法前先被执行</li>
-</ul>
-</li>
-<li>@After
-<ul>
-<li>所有被After注释的方法会在测试方法完成之后先被执行</li>
-</ul>
-</li>
-</ul>
-<!-- more -->
-<blockquote>
-<p>本文作者: 韩宇<br>
-本文链接: <a href="http://stevenhy.com/post/HlZOD_F9N/">http://stevenhy.com/post/HlZOD_F9N/</a><br>
-版权声明: 本博客所有文章除特别声明外, 均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议, 转载请注明出处</p>
-</blockquote>
+<p>知道方法后,就可以根据 target 和当前元素的大小关系来缩小查找区间<br><br>
+本解法采用第三种思路.<br></p>
+<p><strong>代码如下</strong></p>
+<pre><code class="language-java">public class Shuzu_01 {
+    public static boolean Find(int target, int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0)
+            return false;
+        int rows = matrix.length, cols = matrix[0].length;
+        int r = 0, c = cols - 1; // 从右上角开始
+        while (r &lt;= rows - 1 &amp;&amp; c &gt;= 0) {
+            if (target == matrix[r][c])
+                return true;
+            else if (target &gt; matrix[r][c])
+                r++;
+            else
+                c--;
+        }
+        return false;
+    }
+
+    // 测试
+    public static void main(String[] args) {
+        int[][] matrix = {{1,4,7,11,15},{2,5,8,12,19},{3,6,9,16,22},{10,13,14,17,24},{18,21,23,26,30}};
+        Scanner read = new Scanner(System.in);
+        int target = read.nextInt();
+        System.out.println(Find(target,matrix));
+    }
+}
+</code></pre>
+<p><strong>测试结果如下</strong></p>
+<pre><code>5
+true
+20
+false
+</code></pre>
+<h2 id="解题心得">解题心得</h2>
+<p>在遍历求解时, 遍历方法是很重要的.<br>
+在选择遍历方法对时,要确保该方法对出现的各种情况都有清晰的遍历方向.</p>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="http://stevenhy.com/tag/xue-xi-bi-ji" class="tag">
-                    学习笔记
-                  </a>
-                
-                  <a href="http://stevenhy.com/tag/java" class="tag">
-                    Java
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="http://stevenhy.com/post/C3wLDTZD3">
+                <a href="http://stevenhy.com/post/T-Q7jaIsy">
                   <h3 class="post-title">
-                    以递归之名 - 重构二分搜索树
+                    java 基础知识总结梳理
                   </h3>
                 </a>
               </div>
